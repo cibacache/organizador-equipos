@@ -1,0 +1,27 @@
+<h1>Jugadores disponibles</h1>
+<div id="jugadores-lista"></div>
+
+<h4>Agregar jugador</h4>
+<input type="text" id="nuevoNombre" placeholder="Nombre">
+<select id="nuevoNivel">
+  <option value="Bajo">Bajo</option>
+  <option value="Medio" selected>Medio</option>
+  <option value="Alto">Alto</option>
+</select>
+<button onclick="agregarJugador()">Agregar</button>
+
+<h4>Eliminar jugador</h4>
+<select id="borrarJugador"></select>
+<button onclick="borrarJugador()">Eliminar</button>
+
+<h3>Configuración</h3>
+<label for="numEquipos">Número de equipos:</label>
+<input type="number" id="numEquipos" min="1" value="3"><br><br>
+
+<label for="restricciones">Jugadores que no deben estar en el mismo equipo (separados por coma):</label><br>
+<input type="text" id="restricciones" placeholder="Constanza,Javi,Andres2" size="40"><br><br>
+
+<button onclick="generarEquipos()">Generar Equipos</button>
+
+<h3>Equipos generados</h3>
+<div id="resultados"></div>

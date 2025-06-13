@@ -1,0 +1,66 @@
+<div class="formador-de-equipos p-6 bg-gray-100 rounded-lg shadow-md">
+    <h2 class="text-xl font-bold mb-4 text-gray-800">Jugadores disponibles</h2>
+    <div id="jugadores-lista" class="mb-6">
+        <ul class="space-y-2">
+            <li *ngFor="let jugador of jugadoresBase"
+                class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm">
+                <span class="text-gray-600 font-medium">Id: {{jugador.id}}</span>
+                <input type="checkbox" [id]="'presente-' + jugador.id" [(ngModel)]="jugador.isPresent" (change)="guardarJugadores()" class="h-5 w-5">
+                <span class="text-gray-800">{{ jugador.nombre }}</span>
+            </li>
+        </ul>
+    </div>
+
+    <h4 class="text-lg font-semibold mb-2 text-gray-800">Agregar jugador</h4>
+    <div class="flex items-center space-x-4 mb-6">
+        <input type="text" id="nuevoNombre" placeholder="Nombre" #nuevoNombre
+            class="border border-gray-300 rounded-lg p-2 w-1/3">
+        <select id="nuevoNivel" #nuevoNivel class="border border-gray-300 rounded-lg p-2 w-1/3">
+            <option value="1">Aprendiendo</option>
+            <option value="2" selected>Sabe jugar</option>
+            <option value="3">Remacha y bloquea</option>
+        </select>
+        <button (click)="agregarJugador(nuevoNombre.value, + nuevoNivel.value)"
+            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Agregar</button>
+    </div>
+
+    <h4 class="text-lg font-semibold mb-2 text-gray-800">Eliminar jugador</h4>
+    <div class="flex items-center space-x-4 mb-6">
+        <input type="text" id="borrarJugador" placeholder="Nombre del jugador a eliminar" #borrarJugadorInput
+            class="border border-gray-300 rounded-lg p-2 w-2/3">
+        <button (click)="borrarJugador(borrarJugadorInput.value)"
+            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Eliminar</button>
+    </div>
+
+    <h3 class="text-lg font-semibold mb-2 text-gray-800">Configuración</h3>
+    <div class="space-y-4 mb-6">
+        <div>
+            <label for="numEquipos" class="block text-gray-700 font-medium">Número de equipos:</label>
+            <input type="number" id="numEquipos" min="2" [(ngModel)]="numeroEquipos"
+                class="border border-gray-300 rounded-lg p-2 w-full">
+        </div>
+        <div>
+            <label for="restricciones" class="block text-gray-700 font-medium">Capitanes:</label>
+            <input type="text" id="restricciones"  [(ngModel)]="imputCapitanes"  placeholder="Ids:10 15 18" size="40"
+                class="border border-gray-300 rounded-lg p-2 w-full">
+        </div>
+    </div>
+
+    <button (click)="generarEquipos()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Generar
+        Equipos</button>
+
+    <h3 class="text-lg font-semibold mt-6 text-gray-800">Equipos generados</h3>
+    <div id="resultados" class="mt-4">
+
+        <div id="resultados" class="mt-4">
+            <div *ngFor="let equipo of equipos; let i = index" class="equipo bg-white p-4 rounded-lg shadow-md mb-4">
+                <h4 class="text-lg font-bold text-gray-800">Equipo {{ i + 1 }} (Puntaje: {{ equipo.puntaje }})</h4>
+                <ul class="space-y-2">
+                    <li *ngFor="let jugador of equipo.jugadores" class="text-gray-600">
+                        {{ jugador.nombre }} (Puntaje: {{ jugador.puntaje }})
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
