@@ -1,11 +1,12 @@
-<div class="formador-de-equipos p-6 bg-gray-100 rounded-lg shadow-md">
+<div class="formador-de-equipos p-6 bg-gray-100 rounded-lg shadow-md container mx-auto">
     <h2 class="text-xl font-bold mb-4 text-gray-800">Jugadores disponibles</h2>
     <div id="jugadores-lista" class="mb-6">
         <ul class="space-y-2">
             <li *ngFor="let jugador of jugadoresBase"
                 class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm">
                 <span class="text-gray-600 font-medium">Id: {{jugador.id}}</span>
-                <input type="checkbox" [id]="'presente-' + jugador.id" [(ngModel)]="jugador.isPresent" (change)="guardarJugadores()" class="h-5 w-5">
+                <input type="checkbox" [id]="'presente-' + jugador.id" [(ngModel)]="jugador.isPresent"
+                    (change)="guardarJugadores()" class="h-5 w-5">
                 <span class="text-gray-800">{{ jugador.nombre }}</span>
             </li>
         </ul>
@@ -41,7 +42,7 @@
         </div>
         <div>
             <label for="restricciones" class="block text-gray-700 font-medium">Capitanes:</label>
-            <input type="text" id="restricciones"  [(ngModel)]="imputCapitanes"  placeholder="Ids:10 15 18" size="40"
+            <input type="text" id="restricciones" [(ngModel)]="imputCapitanes" placeholder="Ids:10 15 18" size="40"
                 class="border border-gray-300 rounded-lg p-2 w-full">
         </div>
     </div>
@@ -54,10 +55,13 @@
 
         <div id="resultados" class="mt-4">
             <div *ngFor="let equipo of equipos; let i = index" class="equipo bg-white p-4 rounded-lg shadow-md mb-4">
-                <h4 class="text-lg font-bold text-gray-800">Equipo {{ i + 1 }} (Puntaje: {{ equipo.puntaje }})</h4>
+                <div class="flex items-center">
+                    <h4 class="text-lg font-bold text-gray-800 pr-2">Equipo {{ i + 1 }}</h4>
+                    <h4 class="text-xs font-bold text-gray-800">({{ equipo.puntaje }})</h4>
+                </div>
                 <ul class="space-y-2">
                     <li *ngFor="let jugador of equipo.jugadores" class="text-gray-600">
-                        {{ jugador.nombre }} (Puntaje: {{ jugador.puntaje }})
+                        {{ jugador.nombre }}
                     </li>
                 </ul>
             </div>
