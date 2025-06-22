@@ -27,27 +27,41 @@ export class FormadorDeEquiposComponent implements OnInit {
     if (data) {
         return JSON.parse(data);
     }
+
+    // 1 Recien empieza a jugar
+    // 2 Lleva un tiempo aprendiendo
+    // 3 terminando de aprender lo básico
+    // 4 sabe jugar 
+    // 5 Sabe jugar y es alto
+    // 6 sabe jugar Boquea, remacha, saca bien  
+    // 7 Juega bien en todas las posiciones o tiene una muy desequilibrada
+
     // Si no hay datos en localStorage, retornar jugadores por defecto
     return [
-        { id: 1, nombre: "Andres Externo", puntaje: 1, isPresent: true },
-        { id: 2, nombre: "Andres ULS", puntaje: 2, isPresent: true },
-        { id: 3, nombre: "Benja", puntaje: 2, isPresent: true },
-        { id: 4, nombre: "Camilo", puntaje: 3, isPresent: true },
-        { id: 5, nombre: "Carola", puntaje: 2, isPresent: true },
-        { id: 6, nombre: "Cepillin", puntaje: 2, isPresent: true },
-        { id: 7, nombre: "Cintya", puntaje: 2, isPresent: true },
+        { id: 1, nombre: "Andres Externo", puntaje: 2, isPresent: true },
+        { id: 2, nombre: "Andres ULS", puntaje: 4, isPresent: true },
+        { id: 3, nombre: "Benja", puntaje: 5, isPresent: true },
+        { id: 4, nombre: "Camilo", puntaje: 6, isPresent: true },
+        { id: 5, nombre: "Carola", puntaje: 4, isPresent: true },
+        { id: 6, nombre: "Cepillin", puntaje: 4, isPresent: true },
+        { id: 7, nombre: "Cintya", puntaje: 4, isPresent: true },
         { id: 8, nombre: "Constanza", puntaje: 1, isPresent: true },
-        { id: 9, nombre: "Javi", puntaje: 1, isPresent: true },
-        { id: 10, nombre: "Jenny", puntaje: 2, isPresent: true },
-        { id: 11, nombre: "Juan Carlos", puntaje: 2, isPresent: true },
-        { id: 12, nombre: "Leo", puntaje: 3, isPresent: true },
-        { id: 13, nombre: "Max", puntaje: 3, isPresent: true },
-        { id: 14, nombre: "Mauro", puntaje: 3, isPresent: true },
-        { id: 15, nombre: "Natu", puntaje: 2, isPresent: true },
-        { id: 16, nombre: "Pablo", puntaje: 2, isPresent: true },
-        { id: 17, nombre: "Patty", puntaje: 2, isPresent: true },
-        { id: 18, nombre: "Robinson", puntaje: 2, isPresent: true },
-        { id: 19, nombre: "Yari", puntaje: 2, isPresent: true }
+        { id: 9, nombre: "Javi", puntaje: 2, isPresent: true },
+        { id: 10, nombre: "Jenny", puntaje: 4, isPresent: true },
+        { id: 11, nombre: "Juan Carlos", puntaje: 4, isPresent: true },
+        { id: 12, nombre: "Leo", puntaje: 6, isPresent: true },
+        { id: 13, nombre: "Max", puntaje: 7, isPresent: true },
+        { id: 14, nombre: "Mauro", puntaje: 6, isPresent: true },
+        { id: 15, nombre: "Natu", puntaje: 4, isPresent: true },
+        { id: 16, nombre: "Pablo", puntaje: 4, isPresent: true },
+        { id: 17, nombre: "Patty", puntaje: 4, isPresent: true },
+        { id: 18, nombre: "Robinson", puntaje: 5, isPresent: true },
+        { id: 19, nombre: "Yari", puntaje: 4, isPresent: true },
+        { id: 20, nombre: "Jose", puntaje: 3, isPresent: true },
+        { id: 21, nombre: "Priscila", puntaje: 3, isPresent: true },
+        { id: 22, nombre: "Javi amiga Pablo", puntaje: 3, isPresent: true },
+        { id: 23, nombre: "Aldo", puntaje: 5, isPresent: true }
+
     ];
   }
 

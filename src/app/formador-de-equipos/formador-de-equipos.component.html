@@ -17,9 +17,13 @@
         <input type="text" id="nuevoNombre" placeholder="Nombre" #nuevoNombre
             class="border border-gray-300 rounded-lg p-2 w-1/3">
         <select id="nuevoNivel" #nuevoNivel class="border border-gray-300 rounded-lg p-2 w-1/3">
-            <option value="1">Aprendiendo</option>
-            <option value="2" selected>Sabe jugar</option>
-            <option value="3">Remacha y bloquea</option>
+            <option value="1">Recien empieza a jugar</option>
+            <option value="2">Lleva un tiempo aprendiendo</option>
+            <option value="3">Terminando de aprender lo básico</option>
+            <option value="4" selected>Sabe jugar</option>
+            <option value="5">Sabe jugar y es alto</option>
+            <option value="6">Sabe jugar Boquea, remacha, saca bien</option>
+            <option value="7">Juega bien en todas las posiciones o tiene una muy desequilibrada</option>
         </select>
         <button (click)="agregarJugador(nuevoNombre.value, + nuevoNivel.value)"
             class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Agregar</button>
