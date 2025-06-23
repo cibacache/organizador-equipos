@@ -110,12 +110,14 @@ export class FormadorDeEquiposComponent implements OnInit {
 
   generarEquipos(): void {
     const numEquipos = this.numeroEquipos;
-    this.capitanes = this.imputCapitanes
-      .split(" ")
-      .map(n => n.trim())
-      .filter(n => n)
-      .map(n => Number(n))
-      .filter(n => !isNaN(n));
+    this.capitanes = this.jugadoresBase.filter(j =>this.capitanes.includes(j.id)).map(j => j.id);
+    
+    // this.imputCapitanes
+    //   .split(" ")
+    //   .map(n => n.trim())
+    //   .filter(n => n)
+    //   .map(n => Number(n))
+    //   .filter(n => !isNaN(n));
 
     //clona el array solo con los jugadores que están presentes
     const jugadoresPresentes = this.jugadoresBase.filter(j => j.isPresent).map(j => ({ ...j }));
@@ -173,5 +175,33 @@ export class FormadorDeEquiposComponent implements OnInit {
     const llenos = equipos.filter((e, i) => e.jugadores.length === tamaños[i]).length;
     return llenos ? total / llenos : total / equipos.length;
   }
+  agregarCapitan(id: number): void {
+    if (this.capitanes.includes(id)) {
+        alert("Ese jugador ya está en la lista de capitanes.");
+        return;
+    }
+    if (this.capitanes.length >= this.numeroEquipos) {
+        alert("El número de capitanes no puede ser mayor que el número de equipos.");
+        return;
+    }
+    const jugador = this.jugadoresBase.find(j => j.id === id);
+    if (!jugador) {
+        alert("No existe un jugador con ese ID.");
+        return;
+    }
+    this.capitanes.push(id);
+  }
 
+  eliminarCapitan(id: number): void {
+    const index = this.capitanes.indexOf(id);
+    if (index !== -1) {
+    this.capitanes.splice(index, 1);
+    } else {
+    alert("El jugador no es un capitán.");
+    }
+  }
+
+  getJugadorById(id: number): string | undefined {
+    return this.jugadoresBase.find(j => j.id === id)?.nombre;
+  }
 }
