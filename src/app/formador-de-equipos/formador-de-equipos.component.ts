@@ -17,6 +17,7 @@ export class FormadorDeEquiposComponent implements OnInit {
   equipos: Equipo[]=[];
   imputCapitanes: string = '';
   capitanes: number[] = [];
+  contador: number = 0;
 
   ngOnInit(): void {
     this.jugadoresBase = this.cargarJugadores();
@@ -111,13 +112,6 @@ export class FormadorDeEquiposComponent implements OnInit {
   generarEquipos(): void {
     const numEquipos = this.numeroEquipos;
     this.capitanes = this.jugadoresBase.filter(j =>this.capitanes.includes(j.id)).map(j => j.id);
-    
-    // this.imputCapitanes
-    //   .split(" ")
-    //   .map(n => n.trim())
-    //   .filter(n => n)
-    //   .map(n => Number(n))
-    //   .filter(n => !isNaN(n));
 
     //clona el array solo con los jugadores que están presentes
     const jugadoresPresentes = this.jugadoresBase.filter(j => j.isPresent).map(j => ({ ...j }));
@@ -204,4 +198,13 @@ export class FormadorDeEquiposComponent implements OnInit {
   getJugadorById(id: number): string | undefined {
     return this.jugadoresBase.find(j => j.id === id)?.nombre;
   }
+
+    incrementarContador(): void {
+        this.contador++;
+    }
+
+    borrarStorageKey(): void {
+        localStorage.removeItem(this.STORAGE_KEY);
+        alert('STORAGE_KEY eliminado del localStorage.');
+    }
 }
