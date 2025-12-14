@@ -92,7 +92,7 @@
             @for (equipo of equipos; track $index) {
             <div class="equipo bg-white p-4 rounded-lg shadow-md mb-4">
                 <div class="flex items-center">
-                    <h4 class="text-lg font-bold text-gray-800 pr-2">Equipo {{ getJugadorById(capitanes[$index]) }}</h4>
+                    <h4 class="text-lg font-bold text-gray-800 pr-2">Equipo {{ $index + 1 }}</h4>
                     <h4 class="text-xs font-bold text-gray-800">({{ equipo.puntaje }})</h4>
                 </div>
                 <ul class="space-y-2">
