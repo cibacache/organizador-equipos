@@ -77,10 +77,11 @@
     @if (capitanes.length > 2) {
     <div>
         <div>
-            <p class="font-bold text-gray-800 mt-3">Primer partido: {{ equiposQueJuegan[0].nombre }} vs {{ equiposQueJuegan[1].nombre }}</p>
+            <p class="font-bold text-gray-800 mt-3">Primer partido: {{ equiposQueJuegan[0].nombre }} vs {{
+                equiposQueJuegan[1].nombre }}</p>
         </div>
         @for (item of equiposQueJuegan.slice(2); track $index) {
-            <p class="font-bold text-gray-800 mt-3">Siguiente equipo : {{ item.nombre }}</p>
+        <p class="font-bold text-gray-800 mt-3">Siguiente equipo : {{ item.nombre }}</p>
         }
     </div>
     }
@@ -95,13 +96,11 @@
                     <h4 class="text-lg font-bold text-gray-800 pr-2">Equipo {{ $index + 1 }}</h4>
                     <h4 class="text-xs font-bold text-gray-800">({{ equipo.puntaje }})</h4>
                 </div>
-                <ul class="space-y-2">
+                <div class="flex flex-wrap gap-2">
                     @for (jugador of equipo.jugadores; track jugador.id) {
-                    <li class="text-gray-600">
-                        {{ jugador.nombre }}
-                    </li>
+                        <app-label [text]="jugador.nombre" [isCaptain]="capitanes.includes(jugador.id)"></app-label>
                     }
-                </ul>
+                </div>
             </div>
             }
         </div>

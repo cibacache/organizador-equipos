@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Jugador, Equipo } from '../models/jugador.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { Label } from '../shared/shared/label/label';
 
 @Component({
 	selector: 'app-formador-de-equipos',
-	imports: [CommonModule, FormsModule],
+	imports: [CommonModule, FormsModule, Label],
 	templateUrl: './formador-de-equipos.component.html',
 	styleUrls: ['./formador-de-equipos.component.css']
 })
