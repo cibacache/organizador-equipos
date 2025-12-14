@@ -1,19 +1,25 @@
 <div class="formador-de-equipos p-6 bg-gray-100 rounded-lg shadow-md container mx-auto">
-    <h2 class="text-xl font-bold mb-4 text-gray-800">Jugadores disponibles</h2>
+    <h2 class="text-xl font-bold mb-4 text-gray-800">Jugadores presentes: {{ jugadoresPresentes() }}</h2>
     <div id="jugadores-lista" class="mb-6">
         <ul class="space-y-2">
-            <li *ngFor="let jugador of jugadoresBase" class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm">
+            @for (jugador of jugadoresBase; track jugador.id) {
+            <li class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm">
                 <span class="text-gray-600 font-medium">Id: {{jugador.id}}</span>
-                <input type="checkbox" [id]="'presente-' + jugador.id" [(ngModel)]="jugador.isPresent" (change)="guardarJugadores()"
-                    class="h-5 w-5">
+                <input type="checkbox" [id]="'presente-' + jugador.id" [(ngModel)]="jugador.isPresent"
+                    (change)="guardarJugadores()" class="h-5 w-5">
                 <span class="text-gray-800">{{ jugador.nombre }}</span>
                 <div class="ml-auto flex space-x-2">
-                    <button (click)="agregarCapitan(jugador.id)" *ngIf="jugador.isPresent && !capitanes.includes(jugador.id)"
+                    @if (jugador.isPresent && !capitanes.includes(jugador.id)) {
+                    <button (click)="agregarCapitan(jugador.id)"
                         class="bg-blue-500 text-white px-2 py-1 rounded-lg hover:bg-blue-600">👕⭐</button>
-                    <button (click)="eliminarCapitan(jugador.id)" *ngIf="capitanes.includes(jugador.id)"
+                    }
+                    @if (capitanes.includes(jugador.id)) {
+                    <button (click)="eliminarCapitan(jugador.id)"
                         class="bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-600">👕⭐</button>
+                    }
                 </div>
             </li>
+            }
         </ul>
     </div>
 
@@ -52,44 +58,62 @@
         <div>
             <label for="restricciones" class="block text-gray-700 font-medium">Capitanes:</label>
 
-                <ul class="space-y-2">
-                    <li *ngFor="let capitan of capitanes " class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm">
-                        <span class="text-gray-600 font-medium">Id: {{ capitan }}</span>
-                        <span class="text-gray-800">{{ getJugadorById (capitan) }}</span>
-                        <button (click)="eliminarCapitan(capitan)"
-                            class="bg-white-500 text-white px-2 py-1 rounded-lg hover:bg-gray-600">❌</button>
-                    </li>   
-                </ul>
+            <ul class="space-y-2">
+                @for (capitan of capitanes; track capitan) {
+                <li class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm">
+                    <span class="text-gray-600 font-medium">Id: {{ capitan }}</span>
+                    <span class="text-gray-800">{{ getJugadorById (capitan) }}</span>
+                    <button (click)="eliminarCapitan(capitan)"
+                        class="bg-white-500 text-white px-2 py-1 rounded-lg hover:bg-gray-600">❌</button>
+                </li>
+                }
+            </ul>
         </div>
     </div>
 
-    <button (click)="generarEquipos()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Generar
-        Equipos</button>
+    <button (click)="generarEquipos()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
+        Generar Equipos</button>
 
-    <h3 class="text-lg font-semibold mt-6 text-gray-800">Equipos generados</h3>
+    @if (capitanes.length > 2) {
+    <div>
+        <div>
+            <p class="font-bold text-gray-800 mt-3">Primer partido: {{ equiposQueJuegan[0].nombre }} vs {{ equiposQueJuegan[1].nombre }}</p>
+        </div>
+        @for (item of equiposQueJuegan.slice(2); track $index) {
+            <p class="font-bold text-gray-800 mt-3">Siguiente equipo : {{ item.nombre }}</p>
+        }
+    </div>
+    }
+
+    <h3 class="text-lg font-semibold mt-6 text-gray-800">Equipos generados: {{ jugadoresPresentes() }} jugadores</h3>
     <div id="resultados" class="mt-4">
 
         <div id="resultados" class="mt-4">
-            <div *ngFor="let equipo of equipos; let i = index" class="equipo bg-white p-4 rounded-lg shadow-md mb-4">
+            @for (equipo of equipos; track $index) {
+            <div class="equipo bg-white p-4 rounded-lg shadow-md mb-4">
                 <div class="flex items-center">
-                    <h4 class="text-lg font-bold text-gray-800 pr-2">Equipo {{ i + 1 }}</h4>
+                    <h4 class="text-lg font-bold text-gray-800 pr-2">Equipo {{ $index + 1 }}</h4>
                     <h4 class="text-xs font-bold text-gray-800">({{ equipo.puntaje }})</h4>
                 </div>
                 <ul class="space-y-2">
-                    <li *ngFor="let jugador of equipo.jugadores" class="text-gray-600">
+                    @for (jugador of equipo.jugadores; track jugador.id) {
+                    <li class="text-gray-600">
                         {{ jugador.nombre }}
                     </li>
+                    }
                 </ul>
             </div>
+            }
         </div>
     </div>
     <div class="mt-6">
         <button (click)="incrementarContador()" class="bg-white-500 text-white px-4 py-2 rounded-lg  ">
             Reset
         </button>
-        <button *ngIf="contador >= 5" (click)="borrarStorageKey()"
-            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+        @if (contador >= 5) {
+        <button (click)="borrarStorageKey()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
             Borrar STORAGE_KEY
         </button>
-        </div>
+        }
+    </div>
 </div>
