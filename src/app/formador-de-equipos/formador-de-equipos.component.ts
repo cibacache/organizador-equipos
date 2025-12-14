@@ -39,14 +39,13 @@ export class FormadorDeEquiposComponent implements OnInit {
 
     // Si no hay datos en localStorage, retornar jugadores por defecto
     return [
-        { id: 1, nombre: "Andres Externo", puntaje: 2, isPresent: true },
-        { id: 2, nombre: "Andres ULS", puntaje: 4, isPresent: true },
+        { id: 1, nombre: "Andres Camacho", puntaje: 3, isPresent: true },
+        { id: 2, nombre: "Andres Panda", puntaje: 4, isPresent: true },
         { id: 3, nombre: "Benja", puntaje: 5, isPresent: true },
         { id: 4, nombre: "Camilo", puntaje: 6, isPresent: true },
         { id: 5, nombre: "Carola", puntaje: 4, isPresent: true },
         { id: 6, nombre: "Cepillin", puntaje: 4, isPresent: true },
         { id: 7, nombre: "Cintya", puntaje: 4, isPresent: true },
-        { id: 8, nombre: "Constanza", puntaje: 1, isPresent: true },
         { id: 9, nombre: "Javi", puntaje: 2, isPresent: true },
         { id: 10, nombre: "Jenny", puntaje: 4, isPresent: true },
         { id: 11, nombre: "Juan Carlos", puntaje: 4, isPresent: true },
@@ -60,9 +59,8 @@ export class FormadorDeEquiposComponent implements OnInit {
         { id: 19, nombre: "Yari", puntaje: 4, isPresent: true },
         { id: 20, nombre: "Jose", puntaje: 3, isPresent: true },
         { id: 21, nombre: "Priscila", puntaje: 3, isPresent: true },
-        { id: 22, nombre: "Javi amiga Pablo", puntaje: 3, isPresent: true },
+        { id: 22, nombre: "Javivi", puntaje: 3, isPresent: true },
         { id: 23, nombre: "Aldo", puntaje: 5, isPresent: true }
-
     ];
   }
 
