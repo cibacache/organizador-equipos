@@ -18,7 +18,14 @@
             </div>
         </div>
 
-        <div class="text-2xl font-bold text-gray-500">SETS</div>
+        <div class="flex flex-col items-center">
+            <div class="text-2xl font-bold text-gray-500">SETS</div>
+            <button (click)="intercambiarResultados()"
+                class="bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 text-sm mt-2"
+                title="Intercambiar equipos">
+                ⇄ Cambiar
+            </button>
+        </div>
 
         <!-- Sets Equipo 2 -->
         <div class="flex-1 max-w-xs">
@@ -59,8 +66,14 @@
                 </div>
             </div>
         </div>
-
-        <div class="text-4xl font-bold text-gray-600">VS</div>
+        
+        <div class="flex flex-col items-center ">
+            <div class="text-4xl font-bold text-gray-600">VS</div>
+            <button (click)="resetearMarcadorFinSet()"
+                class="bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 text-sm mt-2" title="Intercambiar equipos">
+                🔄Puntos
+            </button>
+        </div>
 
         <!-- Equipo 2 -->
         <div class="flex-1 max-w-xs">

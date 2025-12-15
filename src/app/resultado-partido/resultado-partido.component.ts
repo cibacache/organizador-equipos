@@ -59,9 +59,6 @@ export class ResultadoPartidoComponent {
     } else {
       this.equipo2Sets++;
     }
-    // Resetear puntos al ganar un set
-    this.equipo1Puntos = 0;
-    this.equipo2Puntos = 0;
   }
 
   decrementarSet(equipo: number): void {
@@ -72,12 +69,36 @@ export class ResultadoPartidoComponent {
     }
   }
 
+  intercambiarResultados(): void {
+    // Intercambiar puntos
+    const tempPuntos = this.equipo1Puntos;
+    this.equipo1Puntos = this.equipo2Puntos;
+    this.equipo2Puntos = tempPuntos;
+
+    // Intercambiar sets
+    const tempSets = this.equipo1Sets;
+    this.equipo1Sets = this.equipo2Sets;
+    this.equipo2Sets = tempSets;
+
+    // Intercambiar nombres
+    const tempNombre = this.equipo1Nombre;
+    this.equipo1Nombre = this.equipo2Nombre;
+    this.equipo2Nombre = tempNombre;
+  
+    }
+  
+
   abrirModalVolver(): void {
     this.mostrarModalVolver = true;
   }
 
   cerrarModalVolver(): void {
     this.mostrarModalVolver = false;
+  }
+
+  resetearMarcadorFinSet(): void {
+    this.equipo1Puntos = 0;
+    this.equipo2Puntos = 0;
   }
 
 }
