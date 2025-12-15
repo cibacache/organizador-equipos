@@ -1,0 +1,11 @@
+.resultado-partido {
+    max-width: 1200px;
+}
+
+input[type="text"] {
+    background-color: transparent;
+}
+
+input[type="text"]:focus {
+    background-color: white;
+}

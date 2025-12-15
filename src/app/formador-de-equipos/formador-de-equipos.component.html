@@ -1,5 +1,12 @@
 <div class="formador-de-equipos p-6 bg-gray-100 rounded-lg shadow-md container mx-auto">
-    <h2 class="text-xl font-bold mb-4 text-gray-800">Jugadores presentes: {{ jugadoresPresentes() }}</h2>
+    <div class="flex justify-between pb-4" >
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Jugadores presentes: {{ jugadoresPresentes() }}</h2>
+        <a routerLink="/resultado"
+            class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 inline-block ml-2">
+            Registrar Resultado
+        </a>
+    </div>
+
     <div id="jugadores-lista" class="mb-6">
         <ul class="space-y-2">
             @for (jugador of jugadoresBase; track jugador.id) {
@@ -98,7 +105,7 @@
                 </div>
                 <div class="flex flex-wrap gap-2">
                     @for (jugador of equipo.jugadores; track jugador.id) {
-                        <app-label [text]="jugador.nombre" [isCaptain]="capitanes.includes(jugador.id)"></app-label>
+                    <app-label [text]="jugador.nombre" [isCaptain]="capitanes.includes(jugador.id)"></app-label>
                     }
                 </div>
             </div>
