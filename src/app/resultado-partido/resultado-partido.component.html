@@ -3,16 +3,16 @@
     <div class="flex justify-center items-center space-x-8 ">
         <!-- Sets Equipo 1 -->
         <div class="flex-1 max-w-xs">
-            <div class="bg-blue-50 p-4 rounded-lg text-center">
-                <div class="flex justify-center space-x-2">
+            <div class="bg-blue-50 p-4 rounded-lg text-center ">
+                <div class="flex justify-center space-x-2 gap-5">
                     <button (click)="decrementarSet(1)"
-                        class="bg-red-400 text-white px-3 py-1 rounded hover:bg-red-500 text-sm">
-                        -
+                        class="bg-red-400 text-white px-2 rounded-4xl hover:bg-red-500 text-sm flex items-center justify-center">
+                        <mat-icon>remove</mat-icon>
                     </button>
                     <div class="text-3xl font-bold text-blue-600 mb-3">{{ equipo1Sets }}</div>
                     <button (click)="incrementarSet(1)"
-                        class="bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500 text-sm">
-                        +
+                        class="bg-green-400 text-white px-2 rounded-4xl hover:bg-green-500 text-sm flex items-center justify-center">
+                        <mat-icon>add</mat-icon>
                     </button>
                 </div>
             </div>
@@ -21,9 +21,9 @@
         <div class="flex flex-col items-center">
             <div class="text-2xl font-bold text-gray-500">SETS</div>
             <button (click)="intercambiarResultados()"
-                class="bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 text-sm mt-2"
+                class="bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 text-sm mt-2 flex items-center"
                 title="Intercambiar equipos">
-                ⇄ Cambiar
+                <mat-icon class="mr-1">swap_horiz</mat-icon>
             </button>
         </div>
 
@@ -31,15 +31,15 @@
         <div class="flex-1 max-w-xs">
             <div class="bg-red-50 p-4 rounded-lg text-center">
 
-                <div class="flex justify-center space-x-2">
+                <div class="flex justify-center space-x-2 gap-5">
                     <button (click)="decrementarSet(2)"
-                        class="bg-red-400 text-white px-3 py-1 rounded hover:bg-red-500 text-sm">
-                        -
+                        class="bg-red-400 text-white px-2 rounded-4xl hover:bg-red-500 text-sm flex items-center justify-center">
+                        <mat-icon>remove</mat-icon>
                     </button>
                     <div class="text-3xl font-bold text-red-600 mb-3">{{ equipo2Sets }}</div>
                     <button (click)="incrementarSet(2)"
-                        class="bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500 text-sm">
-                        +
+                        class="bg-green-400 text-white px-2 rounded-4xl hover:bg-green-500 text-sm flex items-center justify-center">
+                        <mat-icon>add</mat-icon>
                     </button>
                 </div>
             </div>
@@ -54,14 +54,14 @@
                 <input type="text" [(ngModel)]="equipo1Nombre"
                     class="text-xl font-bold mb-4 text-gray-800 text-center border-b-2 border-gray-300 focus:border-blue-500 outline-none w-full">
                 <div class="text-6xl font-bold text-blue-600 mb-4">{{ equipo1Puntos }}</div>
-                <div class="flex justify-center space-x-2">
+                <div class="flex justify-center space-x-2 gap-5">
                     <button (click)="decrementarPuntos(1)"
-                        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 text-xl">
-                        -
+                        class="bg-red-500 text-white px-4 py-2 rounded-4xl hover:bg-red-600 text-xl flex items-center justify-center">
+                        <mat-icon>remove</mat-icon>
                     </button>
                     <button (click)="incrementarPuntos(1)"
-                        class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 text-xl">
-                        +
+                        class="bg-green-500 text-white px-4 py-2 rounded-4xl hover:bg-green-600 text-xl flex items-center justify-center">
+                        <mat-icon>add</mat-icon>
                     </button>
                 </div>
             </div>
@@ -70,8 +70,8 @@
         <div class="flex flex-col items-center ">
             <div class="text-4xl font-bold text-gray-600">VS</div>
             <button (click)="resetearMarcadorFinSet()"
-                class="bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 text-sm mt-2" title="Intercambiar equipos">
-                🔄Puntos
+                class="bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 text-sm mt-2 flex items-center" title="Resetear puntos">
+                <mat-icon class="mr-1">refresh</mat-icon>
             </button>
         </div>
 
@@ -81,14 +81,14 @@
                 <input type="text" [(ngModel)]="equipo2Nombre"
                     class="text-xl font-bold mb-4 text-gray-800 text-center border-b-2 border-gray-300 focus:border-blue-500 outline-none w-full">
                 <div class="text-6xl font-bold text-red-600 mb-4">{{ equipo2Puntos }}</div>
-                <div class="flex justify-center space-x-2">
+                <div class="flex justify-center space-x-2 gap-5">
                     <button (click)="decrementarPuntos(2)"
-                        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 text-xl">
-                        -
+                        class="bg-red-500 text-white px-4 py-2 rounded-4xl hover:bg-red-600 text-xl flex items-center justify-center">
+                        <mat-icon>remove</mat-icon>
                     </button>
                     <button (click)="incrementarPuntos(2)"
-                        class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 text-xl">
-                        +
+                        class="bg-green-500 text-white px-4 py-2 rounded-4xl hover:bg-green-600 text-xl flex items-center justify-center">
+                        <mat-icon>add</mat-icon>
                     </button>
                 </div>
             </div>
@@ -97,11 +97,11 @@
 
 
     <div class="flex justify-center space-x-4">
-        <button (click)="abrirModalReset()" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600">
-            Resetear Partido
+        <button (click)="abrirModalReset()" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 flex items-center">
+            <mat-icon class="mr-2">restart_alt</mat-icon> Resetear Partido
         </button>
-        <button (click)="abrirModalVolver()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600">
-            Equipos
+        <button (click)="abrirModalVolver()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 flex items-center">
+            <mat-icon class="mr-2">groups</mat-icon> Equipos
         </button>
     </div>
 </div>
