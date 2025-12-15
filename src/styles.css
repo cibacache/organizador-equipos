@@ -2,3 +2,13 @@
 @import "tailwindcss";
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Evitar zoom en iOS al hacer doble tap */
+* {
+    touch-action: manipulation;
+}
+
+button, a, input, select, textarea {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
