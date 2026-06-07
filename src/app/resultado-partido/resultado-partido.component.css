@@ -1,11 +1,259 @@
-.resultado-partido {
-    max-width: 1200px;
+/* Custom scoreboard styles */
+.scoreboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeIn 0.3s ease both;
 }
 
-input[type="text"] {
-    background-color: transparent;
+.scoreboard-sets-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 1fr;
+  align-items: center;
+  gap: 1rem;
 }
 
-input[type="text"]:focus {
-    background-color: white;
+@media (max-width: 640px) {
+  .scoreboard-sets-row {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .sets-center-col {
+    order: -1;
+  }
+}
+
+.sets-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.sets-card.team-1 {
+  border-left: 3px solid var(--accent);
+}
+.sets-card.team-2 {
+  border-right: 3px solid var(--teal);
+}
+
+.sets-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.sets-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem;
+  line-height: 1;
+  min-width: 2rem;
+  text-align: center;
+}
+.sets-number.team-1 {
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(249,115,22,0.2);
+}
+.sets-number.team-2 {
+  color: var(--teal);
+  text-shadow: 0 0 10px rgba(20,184,166,0.2);
+}
+
+.btn-circle-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+.btn-circle-sm:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-primary);
+  transform: scale(1.05);
+}
+
+.scoreboard-points-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 1fr;
+  align-items: stretch;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .scoreboard-points-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .points-center-col {
+    padding: 0.5rem 0;
+  }
+}
+
+.points-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+}
+
+.points-card.team-1:hover {
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-card), var(--shadow-accent);
+}
+.points-card.team-2:hover {
+  border-color: rgba(20,184,166,0.35);
+  box-shadow: var(--shadow-card), 0 0 20px rgba(20,184,166,0.2);
+}
+
+.team-name-input {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--border);
+  padding: 0.25rem 0.5rem;
+  width: 100%;
+  max-width: 240px;
+  margin-bottom: 1.25rem;
+  outline: none;
+  transition: all 0.2s;
+}
+.team-name-input.team-1:focus {
+  border-bottom-color: var(--accent);
+}
+.team-name-input.team-2:focus {
+  border-bottom-color: var(--teal);
+}
+
+.points-display {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(5.5rem, 14vw, 8.5rem);
+  line-height: 0.9;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin: 0.25rem 0 1rem;
+  user-select: none;
+}
+.points-display.team-1 {
+  color: var(--accent);
+  text-shadow: 0 0 20px rgba(249,115,22,0.35);
+}
+.points-display.team-2 {
+  color: var(--teal);
+  text-shadow: 0 0 20px rgba(20,184,166,0.3);
+}
+
+.points-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.btn-circle-lg {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.btn-circle-lg.dec {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.btn-circle-lg.dec:hover {
+  background: rgba(255,255,255,0.12);
+  color: var(--text-primary);
+  transform: scale(1.05);
+}
+
+.btn-circle-lg.inc-team1 {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-circle-lg.inc-team1:hover {
+  background: #ea6b0e;
+  box-shadow: 0 0 18px rgba(249,115,22,0.45);
+  transform: scale(1.08) translateY(-1px);
+}
+
+.btn-circle-lg.inc-team2 {
+  background: var(--teal);
+  color: #fff;
+}
+.btn-circle-lg.inc-team2:hover {
+  background: #0d9488;
+  box-shadow: 0 0 18px rgba(20,184,166,0.45);
+  transform: scale(1.08) translateY(-1px);
+}
+
+.center-col-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.center-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+.center-label.vs {
+  font-size: 2.5rem;
+  color: var(--text-secondary);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+/* Modales */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 9, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  text-align: center;
+  animation: slideIn 0.25s ease;
 }

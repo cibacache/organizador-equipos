@@ -134,14 +134,19 @@ export class OrganizadorV2Component implements OnInit {
     }
   }
 
-  posicionEmoji(posicion: Posicion): string {
+  posicionEmoji(posicion: string, jugador?: Jugador): string {
+    let p = posicion as Posicion;
+    if (posicion === 'suplente' && jugador) {
+      p = this.posicionesJugador(jugador)[0];
+    }
     const map: Record<Posicion, string> = {
       levantador: '🧤',
       opuesto: '⚡',
       central: '🧱',
       punta: '↗️',
+      suplente: '🪑',
     };
-    return map[posicion] ?? '';
+    return map[p] ?? '';
   }
 
   resetearStorage(): void {
@@ -166,12 +171,29 @@ export class OrganizadorV2Component implements OnInit {
       opuesto: 'bg-red-100 text-red-700',
       central: 'bg-blue-100 text-blue-700',
       punta: 'bg-green-100 text-green-700',
+      suplente: 'bg-gray-100 text-gray-700',
     };
     return map[normalized] ?? 'bg-gray-100 text-gray-700';
   }
 
-  posicionLabel(posicion: Posicion): string {
-    return posicion === 'central' ? 'centro' : posicion;
+  posicionBadgeClass(pos: string): string {
+    const normalized = (pos ?? '').toLowerCase().replace('centro', 'central');
+    const map: Record<string, string> = {
+      levantador: 'vb-badge-lev',
+      opuesto:    'vb-badge-opu',
+      central:    'vb-badge-cen',
+      punta:      'vb-badge-pun',
+      suplente:   'vb-badge-gray',
+    };
+    return map[normalized] ?? 'vb-badge-gray';
+  }
+
+  posicionLabel(posicion: string, jugador?: Jugador): string {
+    let p = posicion;
+    if (posicion === 'suplente' && jugador) {
+      p = this.posicionesJugador(jugador)[0];
+    }
+    return p === 'central' ? 'centro' : p;
   }
 
   jugadoresOrdenadosPorPosicion(jugadores: any[]): any[] {

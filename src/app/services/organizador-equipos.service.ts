@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-export type Posicion = 'punta' | 'central' | 'levantador' | 'opuesto';
+export type Posicion = 'punta' | 'central' | 'levantador' | 'opuesto' | 'suplente';
 
 export interface Jugador {
   id: number;
@@ -64,6 +64,7 @@ const FORMACION_VOLLEY: Record<Posicion, number> = {
   opuesto: 1,
   central: 2,
   punta: 2,
+  suplente: 0,
 };
 
 const PRIORIDAD_POSICIONES: Posicion[] = ['levantador', 'central', 'punta', 'opuesto'];
@@ -188,6 +189,7 @@ export class OrganizadorEquiposService {
       central: 0,
       levantador: 0,
       opuesto: 0,
+      suplente: 0,
     };
   }
 
@@ -251,7 +253,7 @@ export class OrganizadorEquiposService {
     const penalizacionBajoNivel = this.calcularPenalizacionBajoNivel(jugador, equipoDestino);
     const penalizacionPosicion = this.calcularPenalizacionPosicion(jugador, equipoDestino);
 
-    return diferenciaPuntaje * 2 + diferenciaPromedio * 3 + penalizacionBajoNivel + penalizacionPosicion;
+    return diferenciaPuntaje * 2 + diferenciaPromedio * 3 + penalizacionBajoNivel + penalizacionPosicion * 15;
   }
 
   private calcularPenalizacionBajoNivel(jugador: Jugador, equipo: EquipoEnConstruccion): number {
@@ -267,26 +269,38 @@ export class OrganizadorEquiposService {
   private calcularPenalizacionPosicion(jugador: Jugador, equipo: EquipoEnConstruccion): number {
     const posicionesJugador = this.obtenerPosiciones(jugador);
     const principal = posicionesJugador[0];
-    const tienePrincipal = equipo.posiciones[principal] > 0;
-    const tieneAlgunaAlternativa = posicionesJugador.slice(1).some((posicion) => equipo.posiciones[posicion] > 0);
+    
+    // Comparar contra el límite de la formación (ej. 2 para central/punta, 1 para levantador/opuesto)
+    const limitePosicion = FORMACION_VOLLEY[principal] ?? 1;
+    const ocupacionPrincipal = equipo.posiciones[principal] ?? 0;
+    const tienePrincipalExcedido = ocupacionPrincipal >= limitePosicion;
+
     const levantadoresActuales = equipo.jugadores.filter(
       (integrante) => this.obtenerPosiciones(integrante).includes('levantador'),
     ).length;
     const prioridadLevantador = posicionesJugador.indexOf('levantador');
 
+    // Regla especial para colocadores (levantadores)
     if (prioridadLevantador >= 0 && levantadoresActuales > 0) {
-      return Math.max(2, 8 - prioridadLevantador * 2);
+      return Math.max(4, 12 - prioridadLevantador * 2);
     }
 
-    if (!tienePrincipal && !tieneAlgunaAlternativa) {
-      return 0;
+    if (!tienePrincipalExcedido) {
+      return 0; // Hay cupo libre para su posición principal
     }
 
-    if (!tienePrincipal && tieneAlgunaAlternativa) {
-      return 1;
+    // Si su posición principal está llena, vemos si tiene alguna alternativa con cupo libre
+    const tieneAlgunaAlternativaLibre = posicionesJugador.slice(1).some((posicion) => {
+      const limiteAlt = FORMACION_VOLLEY[posicion] ?? 1;
+      const ocupacionAlt = equipo.posiciones[posicion] ?? 0;
+      return ocupacionAlt < limiteAlt;
+    });
+
+    if (tieneAlgunaAlternativaLibre) {
+      return 2; // Penalización media
     }
 
-    return 2;
+    return 6; // Penalización alta (todo lleno)
   }
 
   private construirResultado(equipos: EquipoEnConstruccion[]): ResultadoOrganizacion {
@@ -325,9 +339,33 @@ export class OrganizadorEquiposService {
 
   private asignarPosicionesDeJuego(jugadores: Jugador[]): JugadorAsignado[] {
     const cupos = this.crearCuposFormacion(jugadores.length);
-    const jugadoresPendientes = [...jugadores].sort((a, b) => b.puntaje - a.puntaje);
+    const jugadoresPendientes = [...jugadores].sort((a, b) => {
+      if (a.posiciones.length !== b.posiciones.length) {
+        return a.posiciones.length - b.posiciones.length;
+      }
+      return b.puntaje - a.puntaje;
+    });
     const asignados: JugadorAsignado[] = [];
 
+    // PASO 1: Asignar posiciones principales preferidas
+    // Si la posición principal del jugador tiene cupo disponible, se le asigna de inmediato.
+    const listadoRestante: Jugador[] = [];
+    for (const jugador of jugadoresPendientes) {
+      const principal = this.obtenerPosicionPrincipal(jugador);
+      if (cupos[principal] > 0) {
+        asignados.push({
+          ...jugador,
+          posicionAsignada: principal,
+        });
+        cupos[principal] -= 1;
+      } else {
+        listadoRestante.push(jugador);
+      }
+    }
+    jugadoresPendientes.length = 0;
+    jugadoresPendientes.push(...listadoRestante);
+
+    // PASO 2: Asignar posiciones secundarias/alternativas restantes
     for (const posicion of PRIORIDAD_POSICIONES) {
       while (cupos[posicion] > 0 && jugadoresPendientes.length > 0) {
         const indiceJugador = this.buscarMejorJugadorParaPosicion(jugadoresPendientes, posicion);
@@ -339,6 +377,15 @@ export class OrganizadorEquiposService {
         });
         cupos[posicion] -= 1;
       }
+    }
+
+    // PASO 3: Asignar jugadores restantes como suplentes
+    while (jugadoresPendientes.length > 0) {
+      const jugador = jugadoresPendientes.shift()!;
+      asignados.push({
+        ...jugador,
+        posicionAsignada: 'suplente',
+      });
     }
 
     return asignados.sort((a, b) => b.puntaje - a.puntaje);
@@ -362,7 +409,7 @@ export class OrganizadorEquiposService {
         for (let central = 0; central <= FORMACION_VOLLEY.central; central += 1) {
           for (let punta = 0; punta <= FORMACION_VOLLEY.punta; punta += 1) {
             if (levantador + opuesto + central + punta === cantidadJugadores) {
-              combinaciones.push({ levantador, opuesto, central, punta });
+              combinaciones.push({ levantador, opuesto, central, punta, suplente: 0 });
             }
           }
         }
@@ -401,6 +448,10 @@ export class OrganizadorEquiposService {
       .sort((a, b) => {
         if (b.afinidad !== a.afinidad) {
           return b.afinidad - a.afinidad;
+        }
+
+        if (jugadores[a.index].posiciones.length !== jugadores[b.index].posiciones.length) {
+          return jugadores[a.index].posiciones.length - jugadores[b.index].posiciones.length;
         }
 
         return jugadores[b.index].puntaje - jugadores[a.index].puntaje;

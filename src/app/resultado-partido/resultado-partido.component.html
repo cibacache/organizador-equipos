@@ -1,124 +1,136 @@
-<div class="resultado-partido p-6 bg-gray-100 rounded-lg shadow-md container mx-auto">
-    <!-- Marcador de Sets -->
-    <div class="flex justify-center items-center space-x-8 ">
-        <!-- Sets Equipo 1 -->
-        <div class="flex-1 max-w-xs">
-            <div class="bg-blue-50 p-4 rounded-lg text-center ">
-                <div class="flex justify-center space-x-2 gap-5">
-                    <button (click)="decrementarSet(1)"
-                        class="bg-red-400 text-white px-2 rounded-4xl hover:bg-red-500 text-sm flex items-center justify-center">
-                        <mat-icon>remove</mat-icon>
-                    </button>
-                    <div class="text-3xl font-bold text-blue-600 mb-3">{{ equipo1Sets }}</div>
-                    <button (click)="incrementarSet(1)"
-                        class="bg-green-400 text-white px-2 rounded-4xl hover:bg-green-500 text-sm flex items-center justify-center">
-                        <mat-icon>add</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </div>
+<div class="vb-page">
+  <div class="vb-container">
 
-        <div class="flex flex-col items-center">
-            <div class="text-2xl font-bold text-gray-500">SETS</div>
-            <button (click)="intercambiarResultados()"
-                class="bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 text-sm mt-2 flex items-center"
-                title="Intercambiar equipos">
-                <mat-icon class="mr-1">swap_horiz</mat-icon>
-            </button>
-        </div>
-
-        <!-- Sets Equipo 2 -->
-        <div class="flex-1 max-w-xs">
-            <div class="bg-red-50 p-4 rounded-lg text-center">
-
-                <div class="flex justify-center space-x-2 gap-5">
-                    <button (click)="decrementarSet(2)"
-                        class="bg-red-400 text-white px-2 rounded-4xl hover:bg-red-500 text-sm flex items-center justify-center">
-                        <mat-icon>remove</mat-icon>
-                    </button>
-                    <div class="text-3xl font-bold text-red-600 mb-3">{{ equipo2Sets }}</div>
-                    <button (click)="incrementarSet(2)"
-                        class="bg-green-400 text-white px-2 rounded-4xl hover:bg-green-500 text-sm flex items-center justify-center">
-                        <mat-icon>add</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </div>
+    <!-- ─── Header ─────────────────────────────── -->
+    <div class="vb-header">
+      <div>
+        <h1 class="vb-title">🏐 <span class="accent">Marcador</span>&nbsp;en Vivo</h1>
+        <p class="vb-subtitle">Registro y control digital para el partido en tiempo real</p>
+      </div>
+      <a routerLink="/" class="vb-btn vb-btn-nav">← Equipos</a>
     </div>
 
-    <!-- Marcador de Puntos -->
-    <div class="flex justify-center items-center space-x-8 mb-8">
-        <!-- Equipo 1 -->
-        <div class="flex-1 max-w-xs">
-            <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                <input type="text" [(ngModel)]="equipo1Nombre"
-                    class="text-xl font-bold mb-4 text-gray-800 text-center border-b-2 border-gray-300 focus:border-blue-500 outline-none w-full">
-                <div class="text-6xl font-bold text-blue-600 mb-4">{{ equipo1Puntos }}</div>
-                <div class="flex justify-center space-x-2 gap-5">
-                    <button (click)="decrementarPuntos(1)"
-                        class="bg-red-500 text-white px-4 py-2 rounded-4xl hover:bg-red-600 text-xl flex items-center justify-center">
-                        <mat-icon>remove</mat-icon>
-                    </button>
-                    <button (click)="incrementarPuntos(1)"
-                        class="bg-green-500 text-white px-4 py-2 rounded-4xl hover:bg-green-600 text-xl flex items-center justify-center">
-                        <mat-icon>add</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </div>
+    <div class="scoreboard-container">
+      
+      <!-- ─── Marcador de Sets ────────────────────────── -->
+      <div class="scoreboard-sets-row">
         
-        <div class="flex flex-col items-center ">
-            <div class="text-4xl font-bold text-gray-600">VS</div>
-            <button (click)="resetearMarcadorFinSet()"
-                class="bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-yellow-600 text-sm mt-2 flex items-center" title="Resetear puntos">
-                <mat-icon class="mr-1">refresh</mat-icon>
+        <!-- Sets Equipo 1 (Orange) -->
+        <div class="sets-card team-1">
+          <div class="sets-display">
+            <button (click)="decrementarSet(1)" class="btn-circle-sm" title="Restar Set">
+              <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center;">remove</mat-icon>
             </button>
+            <div class="sets-number team-1">{{ equipo1Sets }}</div>
+            <button (click)="incrementarSet(1)" class="btn-circle-sm" title="Sumar Set">
+              <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center;">add</mat-icon>
+            </button>
+          </div>
         </div>
 
-        <!-- Equipo 2 -->
-        <div class="flex-1 max-w-xs">
-            <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                <input type="text" [(ngModel)]="equipo2Nombre"
-                    class="text-xl font-bold mb-4 text-gray-800 text-center border-b-2 border-gray-300 focus:border-blue-500 outline-none w-full">
-                <div class="text-6xl font-bold text-red-600 mb-4">{{ equipo2Puntos }}</div>
-                <div class="flex justify-center space-x-2 gap-5">
-                    <button (click)="decrementarPuntos(2)"
-                        class="bg-red-500 text-white px-4 py-2 rounded-4xl hover:bg-red-600 text-xl flex items-center justify-center">
-                        <mat-icon>remove</mat-icon>
-                    </button>
-                    <button (click)="incrementarPuntos(2)"
-                        class="bg-green-500 text-white px-4 py-2 rounded-4xl hover:bg-green-600 text-xl flex items-center justify-center">
-                        <mat-icon>add</mat-icon>
-                    </button>
-                </div>
-            </div>
+        <!-- Centro Sets -->
+        <div class="center-col-wrapper sets-center-col">
+          <div class="center-label">SETS</div>
+          <button (click)="intercambiarResultados()"
+              class="vb-btn vb-btn-secondary"
+              title="Intercambiar equipos"
+              style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">
+              <mat-icon style="font-size: 16px; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center;">swap_horiz</mat-icon> Lados
+          </button>
         </div>
-    </div>
 
+        <!-- Sets Equipo 2 (Teal) -->
+        <div class="sets-card team-2">
+          <div class="sets-display">
+            <button (click)="decrementarSet(2)" class="btn-circle-sm" title="Restar Set">
+              <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center;">remove</mat-icon>
+            </button>
+            <div class="sets-number team-2">{{ equipo2Sets }}</div>
+            <button (click)="incrementarSet(2)" class="btn-circle-sm" title="Sumar Set">
+              <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center;">add</mat-icon>
+            </button>
+          </div>
+        </div>
 
-    <div class="flex justify-center space-x-4">
-        <button (click)="abrirModalReset()" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 flex items-center">
-            <mat-icon class="mr-2">restart_alt</mat-icon> Resetear Partido
-        </button>
-        <button (click)="abrirModalVolver()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 flex items-center">
-            <mat-icon class="mr-2">groups</mat-icon> Equipos
-        </button>
+      </div>
+
+      <!-- ─── Marcador de Puntos ──────────────────────── -->
+      <div class="scoreboard-points-row">
+        
+        <!-- Equipo 1 (Orange) -->
+        <div class="points-card team-1">
+          <input type="text" [(ngModel)]="equipo1Nombre"
+              class="team-name-input team-1"
+              placeholder="Equipo A">
+          
+          <div class="points-display team-1">{{ equipo1Puntos }}</div>
+          
+          <div class="points-controls">
+            <button (click)="decrementarPuntos(1)" class="btn-circle-lg dec" title="Restar punto">
+              <mat-icon style="display: inline-flex; align-items: center; justify-content: center;">remove</mat-icon>
+            </button>
+            <button (click)="incrementarPuntos(1)" class="btn-circle-lg inc-team1" title="Sumar punto">
+              <mat-icon style="display: inline-flex; align-items: center; justify-content: center;">add</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Centro Puntos -->
+        <div class="center-col-wrapper points-center-col">
+          <div class="center-label vs">VS</div>
+          <button (click)="resetearMarcadorFinSet()"
+              class="vb-btn vb-btn-secondary" 
+              title="Iniciar nuevo set (puntos a 0)"
+              style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: rgba(251,191,36,0.25); color: #fbbf24; background: rgba(251,191,36,0.08);">
+              <mat-icon style="font-size: 16px; width: 16px; height: 16px; margin-right: 2px; display: inline-flex; align-items: center; justify-content: center;">refresh</mat-icon> Nuevo Set
+          </button>
+        </div>
+
+        <!-- Equipo 2 (Teal) -->
+        <div class="points-card team-2">
+          <input type="text" [(ngModel)]="equipo2Nombre"
+              class="team-name-input team-2"
+              placeholder="Equipo B">
+          
+          <div class="points-display team-2">{{ equipo2Puntos }}</div>
+          
+          <div class="points-controls">
+            <button (click)="decrementarPuntos(2)" class="btn-circle-lg dec" title="Restar punto">
+              <mat-icon style="display: inline-flex; align-items: center; justify-content: center;">remove</mat-icon>
+            </button>
+            <button (click)="incrementarPuntos(2)" class="btn-circle-lg inc-team2" title="Sumar punto">
+              <mat-icon style="display: inline-flex; align-items: center; justify-content: center;">add</mat-icon>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ─── Acciones de Control Inferiores ─────────── -->
+      <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+          <button (click)="abrirModalReset()" class="vb-btn vb-btn-danger" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">
+              <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center;">restart_alt</mat-icon> Resetear Partido
+          </button>
+          <button (click)="abrirModalVolver()" class="vb-btn vb-btn-secondary" style="padding: 0.65rem 1.25rem; font-size: 0.85rem;">
+              <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center;">groups</mat-icon> Volver a Equipos
+          </button>
+      </div>
+
     </div>
+  </div>
 </div>
 
 <!-- Modal de confirmación para resetear partido -->
 @if (mostrarModalReset) {
-<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
-        <h3 class="text-xl font-bold mb-4 text-gray-800">¿Resetear partido?</h3>
-        <p class="text-gray-600 mb-6">¿Estás seguro de que quieres resetear el partido? Se perderán todos los puntos
-            actuales.</p>
-        <div class="flex justify-end space-x-3">
-            <button (click)="cerrarModalReset()"
-                class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">
+<div class="modal-overlay">
+    <div class="modal-content">
+        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">¿Resetear partido?</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">Se reiniciarán los sets y puntos de ambos equipos a cero. ¿Deseas continuar?</p>
+        <div style="display: flex; justify-content: center; gap: 0.75rem;">
+            <button (click)="cerrarModalReset()" class="vb-btn vb-btn-secondary">
                 Cancelar
             </button>
-            <button (click)="confirmarReset()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+            <button (click)="confirmarReset()" class="vb-btn vb-btn-danger">
                 Sí, resetear
             </button>
         </div>
@@ -128,17 +140,15 @@
 
 <!-- Modal de confirmación para volver a equipos -->
 @if (mostrarModalVolver) {
-<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
-        <h3 class="text-xl font-bold mb-4 text-gray-800">¿Volver a equipos?</h3>
-        <p class="text-gray-600 mb-6">¿Estás seguro de que quieres volver a la página de equipos? Se perderá el progreso
-            del partido actual.</p>
-        <div class="flex justify-end space-x-3">
-            <button (click)="cerrarModalVolver()"
-                class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">
+<div class="modal-overlay">
+    <div class="modal-content">
+        <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; color: var(--text-primary); margin-bottom: 0.5rem;">¿Volver a equipos?</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">Si vuelves a la página principal, se perderán el progreso y los marcadores actuales. ¿Quieres salir?</p>
+        <div style="display: flex; justify-content: center; gap: 0.75rem;">
+            <button (click)="cerrarModalVolver()" class="vb-btn vb-btn-secondary">
                 Cancelar
             </button>
-            <a routerLink="/" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 inline-block">
+            <a routerLink="/" class="vb-btn vb-btn-primary" style="background: var(--text-secondary); color: var(--bg-base); border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 600; font-family: 'DM Sans', sans-serif; letter-spacing: 0.02em; padding: 0.5rem 1rem; cursor: pointer; text-decoration: none;">
                 Sí, volver
             </a>
         </div>

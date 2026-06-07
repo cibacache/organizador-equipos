@@ -1,14 +1,517 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles — @imports must come first */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-/* Evitar zoom en iOS al hacer doble tap */
-* {
-    touch-action: manipulation;
+/* ─── Variables de diseño ─────────────────────────── */
+:root {
+  --bg-base:       #0a0d12;
+  --bg-surface:    #111620;
+  --bg-card:       #161c28;
+  --bg-card-hover: #1c2436;
+  --bg-input:      #1a2030;
+
+  --accent:        #f97316;   /* naranja vóley */
+  --accent-dim:    #c05a0e;
+  --accent-glow:   rgba(249,115,22,0.18);
+
+  --teal:          #14b8a6;
+  --teal-glow:     rgba(20,184,166,0.16);
+
+  --pos-lev:       #a855f7;
+  --pos-lev-bg:    rgba(168,85,247,0.12);
+  --pos-opu:       #ef4444;
+  --pos-opu-bg:    rgba(239,68,68,0.12);
+  --pos-cen:       #3b82f6;
+  --pos-cen-bg:    rgba(59,130,246,0.12);
+  --pos-pun:       #22c55e;
+  --pos-pun-bg:    rgba(34,197,94,0.12);
+
+  --text-primary:  #e8eaf0;
+  --text-secondary:#8892a4;
+  --text-muted:    #4b5568;
+
+  --border:        rgba(255,255,255,0.07);
+  --border-accent: rgba(249,115,22,0.35);
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.45);
+  --shadow-accent: 0 0 20px rgba(249,115,22,0.25);
 }
 
+/* ─── Reset ───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Touch optimisation ──────────────────────────── */
+* { touch-action: manipulation; }
 button, a, input, select, textarea {
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: #2d3748; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+
+/* ─── Animaciones globales ────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 var(--accent-glow); }
+  70%  { box-shadow: 0 0 0 8px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ─── Utilidades comunes ──────────────────────────── */
+.vb-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 0%, rgba(249,115,22,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(20,184,166,0.05) 0%, transparent 60%),
+    var(--bg-base);
+  padding: 1.5rem 1rem 4rem;
+}
+
+.vb-container {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+/* ─── Header ──────────────────────────────────────── */
+.vb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.vb-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 6vw, 3rem);
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vb-title span.accent { color: var(--accent); }
+
+.vb-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.35rem;
+  letter-spacing: 0.03em;
+}
+
+/* ─── Cards ───────────────────────────────────────── */
+.vb-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-card);
+  animation: fadeIn 0.3s ease both;
+  transition: border-color 0.2s;
+}
+
+.vb-card:hover { border-color: rgba(255,255,255,0.11); }
+
+.vb-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.vb-card-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* ─── Botones ─────────────────────────────────────── */
+.vb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s ease;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.vb-btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.vb-btn-primary:hover {
+  background: #ea6b0e;
+  box-shadow: 0 0 16px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.vb-btn-secondary {
+  background: rgba(255,255,255,0.07);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.vb-btn-secondary:hover {
+  background: rgba(255,255,255,0.11);
+  transform: translateY(-1px);
+}
+
+.vb-btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 0.4rem 0.6rem;
+}
+.vb-btn-ghost:hover { color: var(--text-primary); }
+
+.vb-btn-danger {
+  background: rgba(239,68,68,0.12);
+  color: #f87171;
+  border: 1px solid rgba(239,68,68,0.25);
+}
+.vb-btn-danger:hover {
+  background: rgba(239,68,68,0.2);
+  transform: translateY(-1px);
+}
+
+.vb-btn-generate {
+  width: 100%;
+  justify-content: center;
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.12em;
+  font-weight: 400;
+  background: linear-gradient(135deg, var(--accent) 0%, #fb923c 100%);
+  color: #fff;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(249,115,22,0.35);
+  transition: all 0.2s ease;
+}
+.vb-btn-generate:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(249,115,22,0.5);
+}
+.vb-btn-generate:active { transform: translateY(0); }
+
+.vb-btn-nav {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.9rem;
+  font-size: 0.78rem;
+}
+.vb-btn-nav:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.1);
+}
+
+/* ─── Inputs ──────────────────────────────────────── */
+.vb-input {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  padding: 0.55rem 0.75rem;
+  width: 100%;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  outline: none;
+}
+.vb-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.vb-input::placeholder { color: var(--text-muted); }
+
+.vb-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238892a4' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+}
+.vb-select option { background: #1a2030; }
+
+.vb-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.35rem;
+}
+
+/* ─── Jugador row ─────────────────────────────────── */
+.vb-player-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.7rem 0.9rem;
+  transition: all 0.18s ease;
+  animation: slideIn 0.25s ease both;
+}
+.vb-player-row:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(255,255,255,0.1);
+}
+
+.vb-player-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+
+/* ─── Checkbox custom ─────────────────────────────── */
+.vb-checkbox {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  transition: all 0.15s;
+}
+.vb-checkbox:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+  animation: pulse-ring 0.4s ease;
+}
+.vb-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px; top: 1px;
+  width: 6px; height: 10px;
+  border: 2px solid white;
+  border-top: none; border-left: none;
+  transform: rotate(45deg);
+}
+.vb-checkbox:focus { outline: none; box-shadow: 0 0 0 3px var(--accent-glow); }
+
+/* ─── Position badges ─────────────────────────────── */
+.vb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+.vb-badge-lev { background: var(--pos-lev-bg); color: var(--pos-lev); }
+.vb-badge-opu { background: var(--pos-opu-bg); color: var(--pos-opu); }
+.vb-badge-cen { background: var(--pos-cen-bg); color: var(--pos-cen); }
+.vb-badge-pun { background: var(--pos-pun-bg); color: var(--pos-pun); }
+.vb-badge-gray { background: rgba(255,255,255,0.06); color: var(--text-secondary); }
+
+/* ─── Team cards ──────────────────────────────────── */
+.vb-team-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem;
+  box-shadow: var(--shadow-card);
+  animation: fadeIn 0.35s ease both;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.vb-team-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), #fb923c);
+  opacity: 0.8;
+}
+.vb-team-card:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card), var(--shadow-accent);
+}
+
+.vb-team-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+}
+
+.vb-team-score {
+  text-align: right;
+}
+.vb-team-score .total {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+.vb-team-score .avg {
+  font-size: 0.67rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ─── Stat cards ──────────────────────────────────── */
+.vb-stat {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  text-align: center;
+}
+.vb-stat-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+.vb-stat-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.06em;
+}
+.vb-stat-green  { color: #4ade80; }
+.vb-stat-yellow { color: #fbbf24; }
+.vb-stat-red    { color: #f87171; }
+
+/* ─── Error banner ────────────────────────────────── */
+.vb-error {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #fca5a5;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+/* ─── Add form panel ──────────────────────────────── */
+.vb-add-form {
+  background: rgba(249,115,22,0.05);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.22s ease;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+@media (max-width: 480px) {
+  .vb-add-form { grid-template-columns: 1fr; }
+}
+.vb-add-form .full { grid-column: 1 / -1; }
+
+/* ─── Divider ─────────────────────────────────────── */
+.vb-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0.75rem 0;
+}
+
+/* ─── Player in team ──────────────────────────────── */
+.vb-team-player {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.88rem;
+}
+.vb-team-player:last-child { border-bottom: none; }
+
+/* ─── Captain badge ───────────────────────────────── */
+.vb-captain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(251,191,36,0.15);
+  color: #fbbf24;
+  padding: 0.15rem 0.45rem;
+  border-radius: 99px;
+}
+
+/* ─── Number input ────────────────────────────────── */
+.vb-number-input {
+  width: 5rem;
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Teal variant for nav link ───────────────────── */
+.vb-btn-teal {
+  background: rgba(20,184,166,0.12);
+  color: var(--teal);
+  border: 1px solid rgba(20,184,166,0.25);
+}
+.vb-btn-teal:hover {
+  background: rgba(20,184,166,0.2);
+  transform: translateY(-1px);
 }

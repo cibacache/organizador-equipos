@@ -1,47 +1,47 @@
-<div class="p-6 bg-gray-100 min-h-screen">
-  <div class="container mx-auto max-w-4xl">
+<div class="vb-page">
+  <div class="vb-container">
 
-    <!-- Header -->
-    <div class="flex justify-between items-center pb-4 mb-6">
+    <!-- ─── Header ─────────────────────────────── -->
+    <div class="vb-header">
       <div>
-        <h1 class="text-2xl font-bold text-gray-800">Organizador de Equipos V2 🏐</h1>
-        <p class="text-sm text-gray-500">Algoritmo balanceado por puntaje, promedio y posiciones</p>
+        <h1 class="vb-title">🏐 <span class="accent">Voley</span>&nbsp;Teams</h1>
+        <p class="vb-subtitle">Algoritmo balanceado por puntaje · promedio · posiciones</p>
       </div>
-      <a routerLink="/" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 text-sm">
-        ← V1
-      </a>
+      <a routerLink="/" class="vb-btn vb-btn-nav">← V1</a>
     </div>
 
-    <!-- Error message -->
+    <!-- ─── Error ──────────────────────────────── -->
     @if (errorMsg) {
-      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        {{ errorMsg }}
-      </div>
+      <div class="vb-error">⚠️ {{ errorMsg }}</div>
     }
 
-    <!-- Player list -->
-    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-      <div class="flex justify-between items-center mb-3">
-        <h2 class="text-lg font-semibold text-gray-800">
-          Jugadores ({{ jugadoresPresentes() }} presentes / {{ jugadoresBase.length }} total)
-        </h2>
+    <!-- ─── Jugadores ──────────────────────────── -->
+    <div class="vb-card">
+      <div class="vb-card-header">
+        <div>
+          <p class="vb-card-title">Jugadores</p>
+          <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.2rem;">
+            <span style="color:var(--accent); font-weight:700;">{{ jugadoresPresentes() }}</span>
+            presentes / {{ jugadoresBase.length }} total
+          </p>
+        </div>
         <button (click)="mostrarFormAgregar = !mostrarFormAgregar"
-          class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 text-sm">
-          {{ mostrarFormAgregar ? 'Cancelar' : '+ Agregar' }}
+          class="vb-btn" [class.vb-btn-primary]="!mostrarFormAgregar" [class.vb-btn-secondary]="mostrarFormAgregar">
+          {{ mostrarFormAgregar ? '✕ Cancelar' : '+ Agregar' }}
         </button>
       </div>
 
-      <!-- Add player form -->
+      <!-- Formulario agregar -->
       @if (mostrarFormAgregar) {
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div class="vb-add-form">
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">Nombre</label>
+            <label class="vb-label">Nombre</label>
             <input type="text" [(ngModel)]="nuevoNombre" placeholder="Nombre del jugador"
-              class="border border-gray-300 rounded-lg p-2 w-full text-sm">
+              class="vb-input">
           </div>
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">Nivel</label>
-            <select [(ngModel)]="nuevoPuntaje" class="border border-gray-300 rounded-lg p-2 w-full text-sm">
+            <label class="vb-label">Nivel</label>
+            <select [(ngModel)]="nuevoPuntaje" class="vb-input vb-select">
               @for (nivel of NIVELES; track nivel.value) {
                 <option [value]="nivel.value">{{ nivel.label }}</option>
               }
@@ -49,8 +49,8 @@
           </div>
           @for (prioridad of [0, 1, 2, 3]; track prioridad) {
             <div>
-              <label class="block text-xs font-medium text-gray-600 mb-1">Posición prioridad {{ prioridad + 1 }}</label>
-              <select [(ngModel)]="nuevasPosiciones[prioridad]" class="border border-gray-300 rounded-lg p-2 w-full text-sm">
+              <label class="vb-label">Posición {{ prioridad + 1 }}</label>
+              <select [(ngModel)]="nuevasPosiciones[prioridad]" class="vb-input vb-select">
                 @if (prioridad > 1) {
                   <option value="">Sin posición</option>
                 }
@@ -60,28 +60,28 @@
               </select>
             </div>
           }
-          <div class="sm:col-span-2">
-            <button (click)="agregarJugador()"
-              class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm">
-              Agregar Jugador
+          <div class="full">
+            <button (click)="agregarJugador()" class="vb-btn vb-btn-primary">
+              ✓ Agregar Jugador
             </button>
           </div>
         </div>
       }
 
-      <!-- Player rows -->
-      <ul class="space-y-2">
+      <!-- Lista jugadores -->
+      <div style="display:flex; flex-direction:column; gap:0.5rem;">
         @for (jugador of jugadoresBase; track jugador.id) {
-          <!-- Edit mode -->
+
+          <!-- Modo edición -->
           @if (editandoId === jugador.id) {
-            <li class="bg-blue-50 border border-blue-200 rounded-lg p-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <div class="vb-add-form" style="background:rgba(59,130,246,0.05); border-color:rgba(59,130,246,0.3);">
               <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">Nombre</label>
-                <input type="text" [(ngModel)]="editNombre" class="border border-gray-300 rounded-lg p-2 w-full text-sm">
+                <label class="vb-label">Nombre</label>
+                <input type="text" [(ngModel)]="editNombre" class="vb-input">
               </div>
               <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">Nivel</label>
-                <select [(ngModel)]="editPuntaje" class="border border-gray-300 rounded-lg p-2 w-full text-sm">
+                <label class="vb-label">Nivel</label>
+                <select [(ngModel)]="editPuntaje" class="vb-input vb-select">
                   @for (nivel of NIVELES; track nivel.value) {
                     <option [value]="nivel.value">{{ nivel.label }}</option>
                   }
@@ -89,8 +89,8 @@
               </div>
               @for (prioridad of [0, 1, 2, 3]; track prioridad) {
                 <div>
-                  <label class="block text-xs font-medium text-gray-600 mb-1">Posición prioridad {{ prioridad + 1 }}</label>
-                  <select [(ngModel)]="editPosiciones[prioridad]" class="border border-gray-300 rounded-lg p-2 w-full text-sm">
+                  <label class="vb-label">Posición {{ prioridad + 1 }}</label>
+                  <select [(ngModel)]="editPosiciones[prioridad]" class="vb-input vb-select">
                     @if (prioridad > 1) {
                       <option value="">Sin posición</option>
                     }
@@ -100,129 +100,135 @@
                   </select>
                 </div>
               }
-              <div class="sm:col-span-2 flex gap-2">
-                <button (click)="guardarEdicion(jugador.id)"
-                  class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm">Guardar</button>
-                <button (click)="cancelarEdicion()"
-                  class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 text-sm">Cancelar</button>
+              <div class="full" style="display:flex; gap:0.5rem;">
+                <button (click)="guardarEdicion(jugador.id)" class="vb-btn vb-btn-primary">✓ Guardar</button>
+                <button (click)="cancelarEdicion()" class="vb-btn vb-btn-secondary">✕ Cancelar</button>
               </div>
-            </li>
+            </div>
+
           } @else {
-            <!-- View mode -->
-            <li class="bg-gray-50 p-3 rounded-lg sm:flex sm:items-center sm:gap-3">
-              <div class="flex items-start gap-3 sm:min-w-[220px] sm:items-center">
-                <input type="checkbox" [(ngModel)]="jugador.isPresent" (change)="guardarJugadores()"
-                  class="mt-0.5 h-5 w-5 sm:mt-0">
-                <div class="min-w-0">
-                  <p class="font-medium text-gray-800 leading-snug break-words">{{ jugador.nombre }}</p>
-                </div>
+            <!-- Modo vista -->
+            <div class="vb-player-row" [style.opacity]="jugador.isPresent ? '1' : '0.45'">
+              <input type="checkbox" [(ngModel)]="jugador.isPresent" (change)="guardarJugadores()"
+                class="vb-checkbox">
+              <span class="vb-player-name">{{ jugador.nombre }}</span>
+
+              <div style="display:flex; flex-wrap:wrap; gap:0.35rem; flex:1; min-width:0;">
+                @for (pos of posicionesJugador(jugador); track $index) {
+                  <span class="vb-badge" [ngClass]="posicionBadgeClass(pos)">
+                    {{ posicionEmoji(pos) }} {{ $index + 1 }}. {{ posicionLabel(pos) }}
+                  </span>
+                }
               </div>
 
-              <div class="mt-3 flex items-center justify-between gap-3 sm:mt-0 sm:flex-1">
-                <div class="flex flex-wrap gap-1.5">
-                  @for (pos of posicionesJugador(jugador); track $index) {
-                    <span class="text-xs px-2 py-1 rounded" [ngClass]="posicionColorClass(pos)">
-                      {{ $index + 1 }}. {{ posicionLabel(pos) }}
-                    </span>
-                  }
-                </div>
-                <div class="flex shrink-0 gap-2">
-                  <button (click)="iniciarEdicion(jugador)"
-                    class="text-blue-500 hover:text-blue-700 text-sm px-2 py-1 rounded">✏️</button>
-                  <button (click)="borrarJugador(jugador.id)"
-                    class="text-red-500 hover:text-red-700 text-sm px-2 py-1 rounded">🗑️</button>
-                </div>
+              <div style="display:flex; gap:0.25rem; flex-shrink:0;">
+                <button (click)="iniciarEdicion(jugador)" class="vb-btn vb-btn-ghost" title="Editar">✏️</button>
+                <button (click)="borrarJugador(jugador.id)" class="vb-btn vb-btn-ghost" title="Eliminar"
+                  style="color:#f87171;">🗑️</button>
               </div>
-            </li>
+            </div>
           }
         }
-      </ul>
-    </div>
-
-    <!-- Configuration -->
-    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-      <h2 class="text-lg font-semibold text-gray-800 mb-3">Configuración</h2>
-      <div class="flex items-center gap-4">
-        <label class="text-gray-700 font-medium">Número de equipos:</label>
-        <input type="number" min="2" max="10" [(ngModel)]="numeroEquipos"
-          class="border border-gray-300 rounded-lg p-2 w-24">
       </div>
     </div>
 
-    <!-- Generate button -->
-    <button (click)="generarEquipos()"
-      class="w-full bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 font-semibold text-lg mb-6 shadow">
-      🏐 Generar Equipos
+    <!-- ─── Configuración ──────────────────────── -->
+    <div class="vb-card">
+      <div class="vb-card-header">
+        <p class="vb-card-title">Configuración</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:1rem;">
+        <label style="font-size:0.85rem; color:var(--text-secondary); font-weight:500;">Equipos:</label>
+        <input type="number" min="2" max="10" [(ngModel)]="numeroEquipos"
+          class="vb-input vb-number-input">
+      </div>
+    </div>
+
+    <!-- ─── Generar ────────────────────────────── -->
+    <button (click)="generarEquipos()" class="vb-btn vb-btn-generate">
+      🏐 GENERAR EQUIPOS
     </button>
 
-    <!-- Results -->
+    <!-- ─── Resultado ──────────────────────────── -->
     @if (resultado) {
-      <!-- Summary -->
-      <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-3">Resumen de Balance</h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
-          <div class="bg-gray-50 rounded p-3">
-            <p class="text-gray-500 text-xs">Puntaje mín / máx</p>
-            <p class="font-bold text-gray-800">{{ resultado.resumen.puntajeMinimo }} / {{ resultado.resumen.puntajeMaximo }}</p>
+
+      <!-- Balance summary -->
+      <div class="vb-card">
+        <div class="vb-card-header">
+          <p class="vb-card-title">Balance</p>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem;">
+          <div class="vb-stat">
+            <p class="vb-stat-label">Mín / Máx</p>
+            <p class="vb-stat-value" style="color:var(--text-primary);">
+              {{ resultado.resumen.puntajeMinimo }}<span style="color:var(--text-muted);">/</span>{{ resultado.resumen.puntajeMaximo }}
+            </p>
           </div>
-          <div class="bg-gray-50 rounded p-3">
-            <p class="text-gray-500 text-xs">Diferencia de puntaje</p>
-            <p class="font-bold" [class.text-green-600]="resultado.resumen.diferenciaPuntaje <= 3"
-              [class.text-yellow-600]="resultado.resumen.diferenciaPuntaje > 3 && resultado.resumen.diferenciaPuntaje <= 6"
-              [class.text-red-600]="resultado.resumen.diferenciaPuntaje > 6">
+          <div class="vb-stat">
+            <p class="vb-stat-label">Δ Puntaje</p>
+            <p class="vb-stat-value"
+              [class.vb-stat-green]="resultado.resumen.diferenciaPuntaje <= 3"
+              [class.vb-stat-yellow]="resultado.resumen.diferenciaPuntaje > 3 && resultado.resumen.diferenciaPuntaje <= 6"
+              [class.vb-stat-red]="resultado.resumen.diferenciaPuntaje > 6">
               {{ resultado.resumen.diferenciaPuntaje }}
             </p>
           </div>
-          <div class="bg-gray-50 rounded p-3">
-            <p class="text-gray-500 text-xs">Diferencia de promedio</p>
-            <p class="font-bold" [class.text-green-600]="resultado.resumen.diferenciaPromedio <= 0.5"
-              [class.text-yellow-600]="resultado.resumen.diferenciaPromedio > 0.5 && resultado.resumen.diferenciaPromedio <= 1"
-              [class.text-red-600]="resultado.resumen.diferenciaPromedio > 1">
+          <div class="vb-stat">
+            <p class="vb-stat-label">Δ Promedio</p>
+            <p class="vb-stat-value"
+              [class.vb-stat-green]="resultado.resumen.diferenciaPromedio <= 0.5"
+              [class.vb-stat-yellow]="resultado.resumen.diferenciaPromedio > 0.5 && resultado.resumen.diferenciaPromedio <= 1"
+              [class.vb-stat-red]="resultado.resumen.diferenciaPromedio > 1">
               {{ resultado.resumen.diferenciaPromedio }}
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Teams -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- Teams grid -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:1rem;">
         @for (equipo of resultado.equipos; track $index) {
-          <div class="bg-white rounded-lg shadow-md p-4">
-            <div class="flex justify-between items-center mb-3">
-              <h3 class="text-lg font-bold text-gray-800">Equipo {{ $index + 1 }}</h3>
-              <div class="text-right">
-                <span class="text-xs text-gray-500">Total</span>
-                <p class="font-bold text-indigo-600">{{ equipo.puntajeTotal }} pts</p>
-                <span class="text-xs text-gray-500">Prom {{ equipo.puntajePromedio }}</span>
+          <div class="vb-team-card" [style.animation-delay]="$index * 0.07 + 's'">
+
+            <!-- Team header -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+              <span class="vb-team-number">Equipo {{ $index + 1 }}</span>
+              <div class="vb-team-score">
+                <div class="total">{{ equipo.puntajeTotal }} <span style="font-size:0.7rem; font-family:'DM Sans'; color:var(--text-secondary);">pts</span></div>
+                <div class="avg">Prom {{ equipo.puntajePromedio }}</div>
               </div>
             </div>
 
-            <!-- Position badges -->
-            <div class="flex flex-wrap gap-1 mb-3">
+            <!-- Position summary -->
+            <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.75rem;">
               @if (equipo.posiciones.levantador > 0) {
-                <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded">🧤 {{ equipo.posiciones.levantador }} levantador</span>
+                <span class="vb-badge vb-badge-lev">🧤 {{ equipo.posiciones.levantador }} lev</span>
               }
               @if (equipo.posiciones.opuesto > 0) {
-                <span class="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded">⚡ {{ equipo.posiciones.opuesto }} opuesto</span>
+                <span class="vb-badge vb-badge-opu">⚡ {{ equipo.posiciones.opuesto }} opu</span>
               }
               @if (equipo.posiciones.central > 0) {
-                <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">🧱 {{ equipo.posiciones.central }} centro</span>
+                <span class="vb-badge vb-badge-cen">🧱 {{ equipo.posiciones.central }} cen</span>
               }
               @if (equipo.posiciones.punta > 0) {
-                <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">↗️ {{ equipo.posiciones.punta }} punta</span>
+                <span class="vb-badge vb-badge-pun">↗️ {{ equipo.posiciones.punta }} pun</span>
               }
             </div>
 
-            <!-- Players -->
-            <ul class="space-y-2">
+            <div class="vb-divider"></div>
+
+            <!-- Players list -->
+            <div>
               @for (jugador of jugadoresOrdenadosPorPosicion(equipo.jugadores); track jugador.id) {
-                <li class="flex items-center gap-2 text-sm">
-                  <span class="text-base">{{ posicionEmoji(jugador.posicionAsignada) }}</span>
-                  <span class="text-gray-800 font-medium flex-1">{{ jugador.nombre }}</span>
-                  <span class="text-xs text-gray-400">{{ posicionLabel(jugador.posicionAsignada) }}</span>
-                </li>
+                <div class="vb-team-player">
+                  <span style="font-size:1rem;">{{ posicionEmoji(jugador.posicionAsignada, jugador) }}</span>
+                  <span style="flex:1; color:var(--text-primary); font-weight:500;">{{ jugador.nombre }}</span>
+                  <span class="vb-badge" [ngClass]="posicionBadgeClass(jugador.posicionAsignada)"
+                    style="font-size:0.6rem;">{{ posicionLabel(jugador.posicionAsignada, jugador) }}</span>
+                </div>
               }
-            </ul>
+            </div>
+
           </div>
         }
       </div>
