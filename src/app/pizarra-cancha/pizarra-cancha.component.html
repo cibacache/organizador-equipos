@@ -37,6 +37,15 @@
             (mousedown)="$event.stopPropagation()"
             (touchstart)="$event.stopPropagation()"
           />
+          <button
+            (click)="enviarACancha(jugador); $event.stopPropagation()"
+            (mousedown)="$event.stopPropagation()"
+            class="w-7 h-7 rounded-full shrink-0 bg-slate-200 text-slate-600
+                   flex items-center justify-center text-xs font-bold
+                   hover:bg-slate-300 transition-colors"
+            title="Enviar a la cancha">
+            →
+          </button>
         </div>
       }
 

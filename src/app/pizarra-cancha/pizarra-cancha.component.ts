@@ -355,6 +355,21 @@ export class PizarraCanchaComponent implements OnInit, AfterViewInit, OnDestroy 
     jc.y = Math.max(0.05, Math.min(0.95, jc.y));
   }
 
+  /** Envía un jugador del panel a la cancha (posición aleatoria en la mitad inferior) */
+  enviarACancha(jugador: Jugador): void {
+    const panel = this.jugadoresPanel();
+    if (!panel.find(j => j.id === jugador.id)) return;
+
+    // Posición aleatoria en la zona de defensa (mitad inferior)
+    const x = 0.15 + Math.random() * 0.7;
+    const y = 0.4 + Math.random() * 0.5;
+
+    this.jugadoresEnCancha.push({ jugador, x, y });
+    this.jugadoresPanel.set(panel.filter(j => j.id !== jugador.id));
+    this.actualizarTodosJugadores();
+    this.render();
+  }
+
   /** Agrega un nuevo jugador al panel con nombre editable */
   agregarJugador(): void {
     const panel = this.jugadoresPanel();
