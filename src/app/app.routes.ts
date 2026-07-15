@@ -7,5 +7,11 @@ export const routes: Routes = [
   { path: '', component: FormadorDeEquiposComponent },
   { path: 'resultado', component: ResultadoPartidoComponent },
   { path: 'organizadorv2', component: OrganizadorV2Component },
+  {
+    path: 'pizarra',
+    loadComponent: () =>
+      import('./pizarra-cancha/pizarra-cancha.component')
+        .then(m => m.PizarraCanchaComponent),
+  },
   { path: '**', redirectTo: '' }
 ];

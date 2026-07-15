@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+canvas {
+  touch-action: none;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.cancha-container {
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  justify-content: center;
+}
