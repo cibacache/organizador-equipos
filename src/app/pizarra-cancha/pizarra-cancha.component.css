@@ -1,14 +1,138 @@
 :host {
   display: block;
-  min-height: 100vh;
-  background: #ffffff;
 }
 
-canvas {
-  touch-action: none;
-  display: block;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+.pizarra-container {
+  max-width: 72rem;
+}
+
+.pizarra-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+@media (min-width: 1024px) {
+  .pizarra-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* En mobile/tablet (columna) la cancha va primero: el panel de jugadores
+   puede ser largo y no debe empujarla fuera de vista. */
+.pizarra-main { order: -1; }
+@media (min-width: 1024px) {
+  .pizarra-main { order: 0; }
+}
+
+/* ─── Panel de jugadores ──────────────────────────── */
+.pizarra-panel {
+  width: 100%;
+}
+@media (min-width: 1024px) {
+  .pizarra-panel {
+    width: 17rem;
+    flex-shrink: 0;
+  }
+}
+
+.pizarra-hint {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin: 0.35rem 0 0.9rem;
+  line-height: 1.4;
+}
+
+.pizarra-hint-center {
+  text-align: center;
+  margin-top: 0.6rem;
+}
+
+.pizarra-add-btn {
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 0.9rem;
+}
+
+.pizarra-panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+@media (min-width: 1024px) {
+  .pizarra-panel-list {
+    max-height: 70vh;
+  }
+}
+
+.pizarra-player-row {
+  cursor: grab;
+  padding: 0.5rem 0.6rem;
+}
+.pizarra-player-row:active { cursor: grabbing; }
+
+.pizarra-color-dot {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 0 0 1px var(--border);
+  transition: transform 0.15s;
+  cursor: pointer;
+}
+.pizarra-color-dot:hover { transform: scale(1.1); }
+
+.pizarra-name-input {
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  width: 100%;
+  min-width: 0;
+  padding: 0.2rem 0.3rem;
+  cursor: grab;
+  font-family: 'DM Sans', sans-serif;
+}
+.pizarra-name-input:focus {
+  background: var(--bg-input);
+  border-radius: var(--radius-sm);
+  cursor: text;
+}
+
+.pizarra-send-btn {
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border-radius: 999px;
+  flex-shrink: 0;
+  justify-content: center;
+  background: rgba(255,255,255,0.06);
+}
+.pizarra-send-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.pizarra-empty {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+/* ─── Cancha ──────────────────────────────────────── */
+.pizarra-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  width: 100%;
 }
 
 .cancha-container {
@@ -16,4 +140,138 @@ canvas {
   max-width: 680px;
   display: flex;
   justify-content: center;
+}
+
+canvas {
+  touch-action: none;
+  display: block;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+/* ─── Estadísticas ────────────────────────────────── */
+.pizarra-stats-card {
+  width: 100%;
+  max-width: 44rem;
+  margin-top: 1.5rem;
+}
+
+.pizarra-stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.pizarra-modo-suma {
+  background: rgba(34,197,94,0.12);
+  color: #4ade80;
+  border: 1px solid rgba(34,197,94,0.25);
+}
+.pizarra-modo-suma:hover { background: rgba(34,197,94,0.2); }
+
+.pizarra-modo-resta {
+  background: rgba(239,68,68,0.12);
+  color: #f87171;
+  border: 1px solid rgba(239,68,68,0.25);
+}
+.pizarra-modo-resta:hover { background: rgba(239,68,68,0.2); }
+
+.pizarra-table-wrap {
+  overflow-x: auto;
+}
+
+.pizarra-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.pizarra-table thead tr:first-child th {
+  background: rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  padding: 0.5rem 0.6rem;
+  text-align: center;
+}
+.pizarra-table thead tr:first-child th.pizarra-th-jugador {
+  text-align: left;
+}
+
+.pizarra-subheader th {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  padding: 0.3rem 0.4rem;
+  font-weight: 400;
+}
+
+.pizarra-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.pizarra-table tbody td:not(.pizarra-td-jugador) {
+  text-align: center;
+  padding: 0.3rem 0.25rem;
+}
+.pizarra-table tbody tr:hover {
+  background: rgba(255,255,255,0.03);
+}
+.pizarra-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.pizarra-td-jugador {
+  padding: 0.5rem 0.6rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.pizarra-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.pizarra-stat-btn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 0.78rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.pizarra-stat-btn.good {
+  background: rgba(34,197,94,0.1);
+  color: #4ade80;
+}
+.pizarra-stat-btn.good:hover { background: rgba(34,197,94,0.22); }
+
+.pizarra-stat-btn.mid {
+  background: rgba(251,191,36,0.1);
+  color: #fbbf24;
+}
+.pizarra-stat-btn.mid:hover { background: rgba(251,191,36,0.22); }
+
+.pizarra-stat-btn.bad {
+  background: rgba(239,68,68,0.1);
+  color: #f87171;
+}
+.pizarra-stat-btn.bad:hover { background: rgba(239,68,68,0.22); }
+
+.pizarra-clear-btn {
+  margin-top: 1rem;
 }

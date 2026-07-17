@@ -487,7 +487,7 @@ export class PizarraCanchaComponent implements OnInit, AfterViewInit, OnDestroy 
 
   /** Limpia todos los registros de saques y recepciones (con confirmación) */
   limpiarEstadisticas(): void {
-    if (confirm('¿Estás seguro de que querés eliminar todos los registros de saques y recepciones?')) {
+    if (confirm('¿Estás seguro de que quieres eliminar todos los registros de saques y recepciones?')) {
       this.estadisticas = {};
       this.guardarEstadisticas();
       this.actualizarTodosJugadores();
