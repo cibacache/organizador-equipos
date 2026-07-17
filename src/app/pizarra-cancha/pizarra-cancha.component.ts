@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild, signal, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { Jugador } from '../services/organizador-equipos.service';
 
 /** Jugador posicionado en la cancha con coordenadas relativas (0-1) */
@@ -13,7 +14,7 @@ export interface JugadorEnCancha {
 @Component({
   selector: 'app-pizarra-cancha',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './pizarra-cancha.component.html',
   styleUrls: ['./pizarra-cancha.component.css'],
 })

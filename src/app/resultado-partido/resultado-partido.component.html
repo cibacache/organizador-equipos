@@ -7,7 +7,10 @@
         <h1 class="vb-title">🏐 <span class="accent">Marcador</span>&nbsp;en Vivo</h1>
         <p class="vb-subtitle">Registro y control digital para el partido en tiempo real</p>
       </div>
-      <a routerLink="/" class="vb-btn vb-btn-nav">← Equipos</a>
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+        <a routerLink="/" class="vb-btn vb-btn-nav">🏠 Inicio</a>
+        <a routerLink="/organizador" class="vb-btn vb-btn-nav">← Equipos</a>
+      </div>
     </div>
 
     <div class="scoreboard-container">
@@ -148,7 +151,7 @@
             <button (click)="cerrarModalVolver()" class="vb-btn vb-btn-secondary">
                 Cancelar
             </button>
-            <a routerLink="/" class="vb-btn vb-btn-primary" style="background: var(--text-secondary); color: var(--bg-base); border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 600; font-family: 'DM Sans', sans-serif; letter-spacing: 0.02em; padding: 0.5rem 1rem; cursor: pointer; text-decoration: none;">
+            <a routerLink="/organizador" class="vb-btn vb-btn-primary" style="background: var(--text-secondary); color: var(--bg-base); border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 600; font-family: 'DM Sans', sans-serif; letter-spacing: 0.02em; padding: 0.5rem 1rem; cursor: pointer; text-decoration: none;">
                 Sí, volver
             </a>
         </div>

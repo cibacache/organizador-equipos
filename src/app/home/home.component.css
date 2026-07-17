@@ -1,0 +1,43 @@
+.vb-home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.vb-home-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.vb-home-card:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card), var(--shadow-accent);
+}
+
+.vb-home-card-teal:hover {
+  border-color: rgba(20, 184, 166, 0.35);
+  box-shadow: var(--shadow-card), 0 0 20px rgba(20, 184, 166, 0.25);
+}
+
+.vb-home-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.vb-home-card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+}
+
+.vb-home-card-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}

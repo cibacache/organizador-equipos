@@ -1,0 +1,22 @@
+<div class="vb-page">
+  <div class="vb-container">
+
+    <div class="vb-header" style="border-bottom: none; margin-bottom: 1.5rem;">
+      <div>
+        <h1 class="vb-title">🏐 <span class="accent">Voley</span>&nbsp;Teams</h1>
+        <p class="vb-subtitle">Elegí qué pantalla querés abrir</p>
+      </div>
+    </div>
+
+    <div class="vb-home-grid">
+      @for (pagina of paginas; track pagina.ruta) {
+        <a [routerLink]="pagina.ruta" class="vb-card vb-home-card" [class.vb-home-card-teal]="pagina.color === 'teal'">
+          <span class="vb-home-icon">{{ pagina.icono }}</span>
+          <span class="vb-home-card-title">{{ pagina.titulo }}</span>
+          <span class="vb-home-card-desc">{{ pagina.descripcion }}</span>
+        </a>
+      }
+    </div>
+
+  </div>
+</div>
