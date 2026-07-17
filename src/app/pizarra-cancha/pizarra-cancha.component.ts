@@ -444,12 +444,21 @@ export class PizarraCanchaComponent implements OnInit, AfterViewInit, OnDestroy 
   /** Todos los jugadores (panel + cancha) */
   todosLosJugadores = signal<Jugador[]>([]);
 
-  /** Registra un saque o recepción */
+  /** Modo de registro: suma o resta (para corregir errores) */
+  modoResta = signal<boolean>(false);
+
+  /** Alterna entre modo suma y resta */
+  toggleModoRegistro(): void {
+    this.modoResta.set(!this.modoResta());
+  }
+
+  /** Registra un saque o recepción (suma o resta según el modo activo) */
   registrar(nombre: string, tipo: string, calidad: string): void {
     if (!this.estadisticas[nombre]) {
       this.estadisticas[nombre] = { saque: { buena: 0, media: 0, mala: 0 }, recepcion: { buena: 0, media: 0, mala: 0 } };
     }
-    this.estadisticas[nombre][tipo][calidad]++;
+    const delta = this.modoResta() ? -1 : 1;
+    this.estadisticas[nombre][tipo][calidad] = Math.max(0, this.estadisticas[nombre][tipo][calidad] + delta);
     this.guardarEstadisticas();
     this.actualizarTodosJugadores();
   }
@@ -485,11 +494,11 @@ export class PizarraCanchaComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
-  /** Actualiza la lista combinada de todos los jugadores */
+  /** Actualiza la lista combinada de todos los jugadores (cancha primero, luego panel) */
   private actualizarTodosJugadores(): void {
-    const panel = this.jugadoresPanel();
     const enCancha = this.jugadoresEnCancha.map(jc => jc.jugador);
-    this.todosLosJugadores.set([...panel, ...enCancha]);
+    const panel = this.jugadoresPanel();
+    this.todosLosJugadores.set([...enCancha, ...panel]);
   }
 
   /** Persiste los colores en localStorage */
