@@ -264,10 +264,30 @@ export class PizarraCanchaComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   // Touch events para mobile
+  private lastTapTime = 0;
+  private lastTapJugador: JugadorEnCancha | null = null;
+  readonly DOBLE_TAP_MS = 300;
+
   onCanvasTouchStart(event: TouchEvent): void {
     event.preventDefault();
     const pos = this.getTouchPos(event);
-    this.dragging = this.findJugadorAt(pos.x, pos.y);
+    const jc = this.findJugadorAt(pos.x, pos.y);
+
+    const ahora = Date.now();
+    if (jc && jc === this.lastTapJugador && ahora - this.lastTapTime < this.DOBLE_TAP_MS) {
+      // Doble-tap: devolver al panel
+      this.jugadoresEnCancha = this.jugadoresEnCancha.filter(j => j !== jc);
+      this.jugadoresPanel.set([...this.jugadoresPanel(), jc.jugador]);
+      this.actualizarTodosJugadores();
+      this.render();
+      this.lastTapTime = 0;
+      this.lastTapJugador = null;
+      return;
+    }
+    this.lastTapTime = ahora;
+    this.lastTapJugador = jc;
+
+    this.dragging = jc;
     if (this.dragging) {
       const px = this.dragging.x * this.canvasWidth;
       const py = this.dragging.y * this.canvasHeight;
