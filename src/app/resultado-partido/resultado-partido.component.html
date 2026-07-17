@@ -8,6 +8,10 @@
         <p class="vb-subtitle">Registro y control digital para el partido en tiempo real</p>
       </div>
       <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+        <button (click)="toggleWakeLock()" class="vb-btn vb-btn-nav"
+          [title]="pantallaActiva ? 'Pantalla se mantiene encendida' : 'Pantalla puede bloquearse'">
+          {{ pantallaActiva ? '🔆 Pantalla activa' : '🌙 Activar pantalla' }}
+        </button>
         <a routerLink="/" class="vb-btn vb-btn-nav">🏠 Inicio</a>
         <a routerLink="/organizador" class="vb-btn vb-btn-nav">← Equipos</a>
       </div>

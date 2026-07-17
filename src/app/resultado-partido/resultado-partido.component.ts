@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './resultado-partido.component.html',
   styleUrls: ['./resultado-partido.component.css']
 })
-export class ResultadoPartidoComponent {
+export class ResultadoPartidoComponent implements OnInit, OnDestroy {
   equipo1Nombre: string = 'Equipo 1';
   equipo2Nombre: string = 'Equipo 2';
   equipo1Puntos: number = 0;
@@ -20,7 +20,109 @@ export class ResultadoPartidoComponent {
   equipo2Sets: number = 0;
   mostrarModalReset: boolean = false;
   mostrarModalVolver: boolean = false;
-  
+
+  /** true si la pantalla se está manteniendo encendida (Wake Lock API o fallback de video) */
+  pantallaActiva = false;
+
+  private wakeLock: any = null;
+  private fallbackVideo: HTMLVideoElement | null = null;
+  private readonly onVisibilityChange = (): void => {
+    if (document.visibilityState === 'visible' && this.pantallaActiva && !this.wakeLock) {
+      this.activarWakeLockNativo();
+    }
+  };
+
+  ngOnInit(): void {
+    this.activarPantallaActiva();
+    document.addEventListener('visibilitychange', this.onVisibilityChange);
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener('visibilitychange', this.onVisibilityChange);
+    this.liberarPantallaActiva();
+  }
+
+  /** Alterna el bloqueo de pantalla manualmente (botón en el header) */
+  toggleWakeLock(): void {
+    if (this.pantallaActiva) {
+      this.liberarPantallaActiva();
+    } else {
+      this.activarPantallaActiva();
+    }
+  }
+
+  private async activarPantallaActiva(): Promise<void> {
+    const activado = await this.activarWakeLockNativo();
+    if (!activado) {
+      this.activarFallbackVideo();
+    }
+  }
+
+  /** Wake Lock API estándar (Chrome, y Safari/Chrome iOS 16.4+) */
+  private async activarWakeLockNativo(): Promise<boolean> {
+    if (!('wakeLock' in navigator)) {
+      return false;
+    }
+
+    try {
+      this.wakeLock = await (navigator as any).wakeLock.request('screen');
+      this.pantallaActiva = true;
+      this.wakeLock.addEventListener('release', () => {
+        this.wakeLock = null;
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /** Fallback para iPhones con iOS < 16.4: video mudo en loop generado desde un canvas */
+  private activarFallbackVideo(): void {
+    if (this.fallbackVideo) {
+      return;
+    }
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 1;
+    canvas.height = 1;
+    const stream: MediaStream | undefined = (canvas as any).captureStream?.(1);
+    if (!stream) {
+      return;
+    }
+
+    const video = document.createElement('video');
+    video.srcObject = stream;
+    video.muted = true;
+    video.setAttribute('playsinline', 'true');
+    video.setAttribute('webkit-playsinline', 'true');
+    video.loop = true;
+    video.style.position = 'fixed';
+    video.style.width = '1px';
+    video.style.height = '1px';
+    video.style.opacity = '0';
+    video.style.pointerEvents = 'none';
+    document.body.appendChild(video);
+
+    this.fallbackVideo = video;
+
+    video.play()
+      .then(() => (this.pantallaActiva = true))
+      .catch(() => this.liberarPantallaActiva());
+  }
+
+  private liberarPantallaActiva(): void {
+    this.wakeLock?.release?.();
+    this.wakeLock = null;
+
+    if (this.fallbackVideo) {
+      this.fallbackVideo.pause();
+      this.fallbackVideo.remove();
+      this.fallbackVideo = null;
+    }
+
+    this.pantallaActiva = false;
+  }
+
   incrementarPuntos(equipo: number): void {
     if (equipo === 1) {
       this.equipo1Puntos++;
