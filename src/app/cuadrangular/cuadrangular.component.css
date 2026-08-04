@@ -1,0 +1,197 @@
+.cuad-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+.cuad-lugar {
+  font-size: 0.95rem;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: normal;
+}
+
+.cuad-sin-datos {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.cuad-puntero {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-color: var(--border-accent);
+  background: linear-gradient(135deg, rgba(249,115,22,0.08), var(--bg-card));
+}
+
+.cuad-puntero-icono {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.cuad-puntero-nombre {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+}
+
+.cuad-puntero-detalle {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.cuad-tabla-wrap {
+  overflow-x: auto;
+}
+
+.cuad-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.cuad-tabla th {
+  text-align: center;
+  padding: 0.5rem 0.6rem;
+  color: var(--text-secondary);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+
+.cuad-tabla td {
+  text-align: center;
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text-primary);
+}
+
+.cuad-tabla .cuad-col-nombre {
+  text-align: left;
+  font-weight: 600;
+}
+
+.cuad-tabla th.cuad-col-nombre {
+  text-align: left;
+}
+
+.cuad-col-puntos {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.cuad-fila-lider {
+  background: rgba(249,115,22,0.06);
+}
+
+.cuad-partido {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.85rem;
+}
+
+.cuad-partido:last-child { border-bottom: none; }
+
+.cuad-partido-num {
+  font-family: 'Bebas Neue', sans-serif;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.cuad-partido-horario {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.cuad-partido-equipos {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.cuad-partido-equipos span:first-child,
+.cuad-partido-equipos span:last-child {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cuad-partido-equipos span:last-child {
+  text-align: right;
+}
+
+.cuad-partido-resultado {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.cuad-partido-sets {
+  grid-column: 1 / -1;
+  text-align: right;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+.cuad-equipo-ganador {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.cuad-partido-resultado.cuad-pendiente {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.cuad-partido-jugado .cuad-partido-resultado {
+  color: var(--teal);
+}
+
+.cuad-reglas h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+}
+
+.cuad-reglas p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0 0 0.5rem;
+}
+
+.cuad-reglas ul,
+.cuad-reglas ol {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 0 0.75rem;
+  padding-left: 1.4rem;
+}
+
+.cuad-reglas strong {
+  color: var(--text-primary);
+}
+
+@media (max-width: 480px) {
+  .cuad-partido {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}

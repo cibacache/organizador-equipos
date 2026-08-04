@@ -1,0 +1,127 @@
+<div class="vb-page">
+  <div class="vb-container">
+
+    <div class="vb-header">
+      <div>
+        <h1 class="vb-title">🏆 <span class="accent">Cuadrangular</span></h1>
+        <p class="vb-subtitle">{{ torneo.nombre }} · {{ torneo.organizador }}</p>
+      </div>
+      <a routerLink="/" class="vb-btn vb-btn-nav">← Volver</a>
+    </div>
+
+    <!-- Info del torneo -->
+    <div class="vb-card">
+      <div class="cuad-info-grid">
+        <div class="vb-stat">
+          <div class="vb-stat-label">Fecha</div>
+          <div class="vb-stat-value">{{ torneo.fecha }}</div>
+        </div>
+        <div class="vb-stat">
+          <div class="vb-stat-label">Lugar</div>
+          <div class="vb-stat-value cuad-lugar">{{ torneo.lugar }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Puntero -->
+    @if (torneoIniciado) {
+      <div class="vb-card cuad-puntero">
+        <span class="cuad-puntero-icono">🥇</span>
+        <div>
+          <div class="vb-card-title">Va ganando</div>
+          <div class="cuad-puntero-nombre">{{ posiciones[0].nombre }}</div>
+          <div class="cuad-puntero-detalle">{{ posiciones[0].puntos }} puntos · {{ posiciones[0].partidosGanados }} partidos ganados</div>
+        </div>
+      </div>
+    } @else {
+      <div class="vb-card">
+        <p class="cuad-sin-datos">⏳ El torneo aún no ha comenzado. Todos los partidos están pendientes.</p>
+      </div>
+    }
+
+    <!-- Tabla de posiciones -->
+    <div class="vb-card">
+      <div class="vb-card-header">
+        <span class="vb-card-title">Tabla de posiciones</span>
+      </div>
+      <div class="cuad-tabla-wrap">
+        <table class="cuad-tabla">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th class="cuad-col-nombre">Equipo</th>
+              <th>PJ</th>
+              <th>PG</th>
+              <th>PP</th>
+              <th>Sets</th>
+              <th>Pts</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (equipo of posiciones; track equipo.nombre; let i = $index) {
+              <tr [class.cuad-fila-lider]="i === 0 && torneoIniciado">
+                <td>{{ i + 1 }}</td>
+                <td class="cuad-col-nombre">{{ equipo.nombre }}</td>
+                <td>{{ equipo.partidosJugados }}</td>
+                <td>{{ equipo.partidosGanados }}</td>
+                <td>{{ equipo.partidosPerdidos }}</td>
+                <td>{{ equipo.setsFavor }}-{{ equipo.setsContra }}</td>
+                <td class="cuad-col-puntos">{{ equipo.puntos }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Fixture -->
+    <div class="vb-card">
+      <div class="vb-card-header">
+        <span class="vb-card-title">Partidos</span>
+      </div>
+      @for (partido of partidos; track partido.numero) {
+        <div class="cuad-partido" [class.cuad-partido-jugado]="estaJugado(partido)">
+          <div class="cuad-partido-num">P{{ partido.numero }}</div>
+          <div class="cuad-partido-horario">{{ partido.inicio }} - {{ partido.fin }}</div>
+          <div class="cuad-partido-equipos">
+            <span [class.cuad-equipo-ganador]="esGanador(partido, 'A')">
+              @if (estaJugado(partido)) { {{ esGanador(partido, 'A') ? '✅' : '❌' }} }{{ partido.equipoA.nombre }}
+            </span>
+            <span class="cuad-partido-resultado" [class.cuad-pendiente]="!estaJugado(partido)">{{ resultadoPartido(partido) }}</span>
+            <span [class.cuad-equipo-ganador]="esGanador(partido, 'B')">
+              {{ partido.equipoB.nombre }}@if (estaJugado(partido)) { {{ esGanador(partido, 'B') ? '✅' : '❌' }} }
+            </span>
+          </div>
+          @if (estaJugado(partido)) {
+            <div class="cuad-partido-sets">{{ setsTexto(partido).join(' · ') }}</div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Reglamento -->
+    <div class="vb-card">
+      <div class="vb-card-header">
+        <span class="vb-card-title">Reglamento</span>
+      </div>
+      <div class="cuad-reglas">
+        <h3>1. Formato del Torneo</h3>
+        <p><strong>1.1</strong> Se jugará bajo la modalidad de "Todos contra Todos" en una única jornada (un día).</p>
+        <p><strong>1.2</strong> Los partidos se jugarán en la cancha de vóleibol techada del Pueblito Peñuelas, en Coquimbo.</p>
+        <p><strong>1.3</strong> La puntuación de los partidos será de la siguiente manera:</p>
+        <ul>
+          <li>Partido ganado por 2 - 0: 3 puntos al ganador, 0 puntos al perdedor.</li>
+          <li>Partido ganado por 2 - 1: 2 puntos al ganador, 1 punto al perdedor.</li>
+        </ul>
+        <p><strong>1.4</strong> Para definir los lugares del podio, en caso de igualdad de puntos entre dos o más equipos, se aplicarán los siguientes criterios en orden sucesivo:</p>
+        <ol>
+          <li>Mayor cantidad de partidos ganados.</li>
+          <li>Coeficiente de Sets (sets ganados divididos por sets perdidos).</li>
+          <li>Coeficiente de Puntos (Puntos a favor divididos por puntos en contra).</li>
+          <li>Resultado del partido entre los equipos empatados (confrontación directa).</li>
+        </ol>
+      </div>
+    </div>
+
+  </div>
+</div>

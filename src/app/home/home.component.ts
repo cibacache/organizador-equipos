@@ -19,6 +19,13 @@ interface PaginaMenu {
 export class HomeComponent {
   readonly paginas: PaginaMenu[] = [
     {
+      ruta: '/cuadrangular',
+      icono: '🏆',
+      titulo: 'Cuadrangular',
+      descripcion: 'Fixture, tabla de posiciones y reglamento del torneo',
+      color: 'accent',
+    },
+    {
       ruta: '/organizador',
       icono: '🏐',
       titulo: 'Organizador',

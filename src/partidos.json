@@ -1,0 +1,165 @@
+{
+    "torneo": {
+        "nombre": "Primer Cuadrangular Voleibol Mixto",
+        "organizador": "Club Deportivo y Cultural AURA",
+        "fecha": "2026-08-08",
+        "lugar": "Pueblito de Peñuelas, Coquimbo, Chile"
+    },
+    "partidos": [
+        {
+            "numero": 1,
+            "inicio": "09:00",
+            "fin": "10:30",
+            "equipoA": {
+                "nombre": "LOS NATUS"
+            },
+            "equipoB": {
+                "nombre": "PIRATAS VOLEY"
+            },
+            "set": [
+                [
+                    25,
+                    23
+                ],
+                [
+                    23,
+                    25
+                ],
+                [
+                    15,
+                    10
+                ]
+            ]
+        },
+        {
+            "numero": 2,
+            "inicio": "11:00",
+            "fin": "12:30",
+            "equipoA": {
+                "nombre": "AURA VOLEY"
+            },
+            "equipoB": {
+                "nombre": "CLUB DE VOLEIBOL HLS"
+            },
+            "set": [
+                [
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ]
+        },
+        {
+            "numero": 3,
+            "inicio": "14:00",
+            "fin": "15:30",
+            "equipoA": {
+                "nombre": "LOS NATUS"
+            },
+            "equipoB": {
+                "nombre": "AURA VOLEY"
+            },
+            "set": [
+                [
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ]
+        },
+        {
+            "numero": 4,
+            "inicio": "16:00",
+            "fin": "17:30",
+            "equipoA": {
+                "nombre": "PIRATAS VOLEY"
+            },
+            "equipoB": {
+                "nombre": "CLUB DE VOLEIBOL HLS"
+            },
+            "set": [
+                [
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ]
+        },
+        {
+            "numero": 5,
+            "inicio": "18:00",
+            "fin": "19:30",
+            "equipoA": {
+                "nombre": "LOS NATUS"
+            },
+            "equipoB": {
+                "nombre": "CLUB DE VOLEIBOL HLS"
+            },
+            "set": [
+                [
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ]
+        },
+        {
+            "numero": 6,
+            "inicio": "20:00",
+            "fin": "21:30",
+            "equipoA": {
+                "nombre": "PIRATAS VOLEY"
+            },
+            "equipoB": {
+                "nombre": "AURA VOLEY"
+            },
+            "set": [
+                [
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ]
+        }
+    ],
+    "receso": {
+        "descripcion": "Receso almuerzo",
+        "despuesDelPartido": 2,
+        "antesDelPartido": 3
+    }
+}
